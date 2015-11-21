@@ -35,11 +35,16 @@ function emitPath( point ) {
     console.log(sessionId)
 }
 
+function drawPath(x, y){
+	otherPath = new Path();
+    otherPath.strokeColor = 'black';
+	otherPath.add(new Point(x, y));
+	view.draw();
+}
+
 io.on( 'drawPath', function( data ) {
 	console.log("received:")
-    console.log( data );
-    otherPath = new Path();
-    otherPath.strokeColor = 'black';
-	otherPath.add(data);
-	view.draw();
+    console.log( data.x );
+    console.log( data.y );
+    drawPath(data.x, data.y);
 });
