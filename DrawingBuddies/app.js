@@ -78,7 +78,6 @@ io.on('connection', function (socket) {
     // (2): The server recieves a ping event
     // from the browser on this socket
     socket.on('ping', function ( data ) {
-  
       console.log('socket: server recieves ping (2)');
 
       // (3): Return a pong event to the browser
