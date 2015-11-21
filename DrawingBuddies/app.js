@@ -76,10 +76,13 @@ var allPaths = [];
 // stores the list of data objects for a given path
 var currPath = [];
 
+// stores all the stickers ever drawn
+var allStickers = [];
+
 
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
-    socket.emit('drawHistory', allPaths );
+    socket.emit('drawHistory', allPaths, allStickers );
 
     // (2): The server recieves a ping event
     // from the browser on this socket
@@ -99,6 +102,12 @@ io.sockets.on('connection', function (socket) {
       io.sockets.emit( 'drawPath', data, session );
       // add the data point to currPath
       currPath.push(data);
+    });
+
+    socket.on( 'drawSticker', function(stickerData) {
+      io.sockets.emit( 'drawSticker', stickerData);
+      allStickers.push(stickerData);
+      // add the sticker to allStickers
     });
 
     // client calls endPath when it is done drawing a path
