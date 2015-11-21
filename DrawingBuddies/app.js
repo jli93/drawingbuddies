@@ -73,18 +73,17 @@ var io = require('socket.io').listen(server, function() {
 });
 
 // A user connects to the server (opens a socket)
-io.on('connection', function (socket) {
+io.sockets.on('connection', function (socket) {
 
     // (2): The server recieves a ping event
     // from the browser on this socket
     socket.on('ping', function ( data ) {
       console.log('socket: server recieves ping (2)');
 
-      // (3): Return a pong event to the browser
-      // echoing back the data from the ping event 
-      socket.emit( 'pong', data );   
-
-      console.log('socket: server sends pong (3)');
+      // (3): Emit a pong event all listening browsers
+      // with the data from the ping event
+      io.sockets.emit( 'pong', data );   
+      console.log('socket: server sends pong to all (3)');
 
     });
 });
