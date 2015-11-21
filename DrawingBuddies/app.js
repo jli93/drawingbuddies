@@ -90,7 +90,7 @@ io.sockets.on('connection', function (socket) {
     socket.on( 'drawPath', function( data, session ) {
       console.log( "session " + session + " drew:");
       console.log( data );
-      io.sockets.emit( 'drawPath', data , session);
+      io.sockets.emit( 'drawPath', data, session );
     });
 
     socket.on( 'endPath', function(session) {

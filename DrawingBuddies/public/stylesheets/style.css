@@ -32,6 +32,7 @@ canvas {
     background: #fff url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
 }
 select {
+
 	display: block;
 
 	padding: 5px 8px;
