@@ -1,10 +1,9 @@
 var myPath;
-var otherPath;
+var otherPaths = {};
 
 function onMouseDown(event) {
 	myPath = new Path();
 	myPath.strokeColor = 'black';
-	initPath();
 }
 
 function onMouseDrag(event) {
@@ -13,12 +12,14 @@ function onMouseDrag(event) {
 }
 
 function onMouseUp(event) {
-
+	myPath = null;
+	endPath()
 }
 
 function initPath(){
-	otherPath = new Path();
-	otherPath.strokeColor = 'black';
+	p = new Path();
+	p.strokeColor = 'black';
+	otherPaths[io.io.engine.id] = p;
 }
 // This function sends the data for a circle to the server
 // so that the server can broadcast it to every other user
@@ -33,7 +34,7 @@ function emitPath( point ) {
     };
 
     // send a 'drawCircle' event with data and sessionId to the server
-    io.emit( 'drawPath', point, sessionId )
+    io.emit( 'drawPath', data, sessionId )
 
     // Lets have a look at the data we're sending
     console.log("sending")
@@ -41,8 +42,12 @@ function emitPath( point ) {
     console.log(sessionId)
 }
 
-function drawPath(data){
-	otherPath.add(data);
+function drawPath(x, y){
+	if (!otherPath){
+		initPath();
+	}
+	var p = new Point(x,y);
+	otherPath.add(p);
 	view.draw();
 }
 
@@ -50,5 +55,5 @@ io.on( 'drawPath', function( data ) {
 	console.log("received:")
     console.log( data.x );
     console.log( data.y );
-    drawPath(data);
+    drawPath(data.x, data.y);
 });
