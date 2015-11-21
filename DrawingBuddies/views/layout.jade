@@ -12,13 +12,14 @@ html
     block content
     <!-- The tool container -->
     #container.col
-        select#color
-            - list = ["red", "orange", "yellow", "green", "blue", "purple", "black"]
-            each item in list
-                option= item
-
-        select#size
-            - list = ["sm", "md", "lg"]
-            each item in list
-                option= item
+        .select-style
+            select#color
+                - list = ["red", "orange", "yellow", "green", "blue", "purple", "black"]
+                each item in list
+                    option= item
+        .select-style
+            select#size
+                - list = ["sm", "md", "lg"]
+                each item in list
+                    option= item
 
