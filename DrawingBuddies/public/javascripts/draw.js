@@ -32,22 +32,17 @@ function onMouseDrag(event) {
 function onMouseUp(event) {
     if (myTool == 'fbicon') {
         console.log("drawing fb sticker");
-        var img = document.createElement("img");
-        img.src = "/images/fbicon.png";
-        img.id = "fbicon2"
-        document.body.appendChild(img);
-        $(img).css("display", "none");
-        // add icon to mouse location
-        var raster = new Raster('fbicon2');
-        raster.position = event.point;
-        raster.scale(0.02);
-        // send to server
+
+        // create sticker data and draw the sticker
         var stickerData = {
-            x: point.x,
-            y: point.y,
-            src: img.src,
-            id: img.id
+            x: event.point.x,
+            y: event.point.y,
+            src: "/images/fbicon.png",
+            id: "fbicon2"
         };
+
+        drawSingleSticker(stickerData);
+        // send sticker to server
         io.emit( 'drawSticker', stickerData );
     }
  	myPath = null;
@@ -192,6 +187,7 @@ var ready = function() {
                 }
             }
         }
+        // get each sticker data and draw the sticker
         for (i = 0; i < allStickers.length; i++) {
             var currSticker = allStickers[i];
             drawSingleSticker(currSticker);
