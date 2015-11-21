@@ -117,7 +117,7 @@ var ready = function() {
 	    } else {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
-	    		if($(this).css("border") != "none"){
+	    		if($(this).css("border-style") == "solid"){
 	    			myColor = $(this).attr("id");
 	    		}
 	    	});

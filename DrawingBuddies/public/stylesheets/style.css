@@ -9,13 +9,14 @@ a {
 
 canvas {
 	border: black solid 1px;
-	width: 85%;
+
 }
 
 #container.col {
 	float: left;	
 	border: black solid 2px;
-	width: 10%;
+	width: 65px;
+	height: 665px;
 	padding: .5em;
 	text-align: center;
 
