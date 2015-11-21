@@ -88,6 +88,9 @@ var ready = function() {
 	        $(".color").css("opacity","0.5");
 	    } else {
 	    	$(".color").css("opacity","1");
+	    	$(".color").each(function(){
+	    		$(this).css("border");
+	    	});
 	    }
 	});
 
