@@ -16,12 +16,12 @@ a {
 
 canvas {
 	background-color: white;
-	border: black solid 4px;
+	border: #696969 solid 3px;
 }
 
 #container.col {
 	float: left;	
-	border: black solid 4px;
+	border: #696969 solid 3px;
 	border-right: 1px;
 	width: 65px;
 	height: 700px;
