@@ -23,7 +23,7 @@ function onMouseDown(event) {
 }
 
 function onMouseDrag(event) {
-    if (myTool == 'pen' || myTool == '') {
+    if (myTool == 'pen' || myTool == 'eraser') {
     	myPath.add(event.point);
     	emitPath(event.point, myColor, mySize, myTool);
     }
