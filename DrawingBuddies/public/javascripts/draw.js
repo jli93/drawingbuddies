@@ -4,28 +4,6 @@ var myColor = 'black';
 var mySize = '5';
 var myTool = 'pen';
 
-io.on( 'drawHistory', function( allPaths ) {
-    console.log("inside drawHistory");
-    console.log("size of allPaths " + allPaths.length);
-    for (i = 0; i < allPaths.length; i++) { 
-        var currPath = allPaths[i];
-        if (currPath.length > 0) {
-            console.log("size of currPaths " + currPath.length);
-            var oldPath = new Path();
-            var data = currPath[0];
-            oldPath.strokeWidth = getSize(data.size);
-            oldPath.strokeColor = data.color;
-            for (j = 0; j < currPath.length; j++) {
-                // get the data point
-                data = currPath[j];
-                var point = new Point(data.x, data.y);
-                oldPath.add(point);
-            }
-        }
-
-    }
-    view.draw();
-});
 
 // returns the integer size for the corresponding string size
 function getSize(size) {
@@ -53,14 +31,19 @@ function onMouseDrag(event) {
 
 function onMouseUp(event) {
     if (myTool == 'fbicon') {
-        var img = document.createElement("img");
-        img.src = "/images/fbicon.png";
-        img.id = "fbicon2"
-        document.body.appendChild(img);
-        // add icon to mouse location
-        var raster = new Raster('fbicon2');
-        raster.position = event.point;
-        raster.scale(0.02);
+        console.log("drawing fb sticker");
+
+        // create sticker data and draw the sticker
+        var stickerData = {
+            x: event.point.x,
+            y: event.point.y,
+            src: "/images/fbicon.png",
+            id: "fbicon2"
+        };
+
+        drawSingleSticker(stickerData);
+        // send sticker to server
+        io.emit( 'drawSticker', stickerData );
     }
  	myPath = null;
 	endPath();
@@ -114,6 +97,20 @@ function drawPath(data, clientnum){
 	view.draw();
 }
 
+// helper method to draw a single sticker: to reduce redundancy
+function drawSingleSticker(sticker) {
+    var img = document.createElement("img");
+    img.src = sticker.src;
+    img.id = sticker.id;
+    document.body.appendChild(img);
+    $(img).css("display", "none");
+    // add icon to mouse location
+    var raster = new Raster(img.id);
+    var point = new Point(sticker.x, sticker.y);
+    raster.position = point;
+    raster.scale(0.02);
+}
+
 var ready = function() {
 	$("#black").css("border", "solid black 3px");
 	$("#pen").css("border", "solid black 3px");
@@ -164,6 +161,39 @@ var ready = function() {
 	io.on( 'endPath', function( session ){
 		otherPaths[session] = null;
 	});
+
+    // called when the server sends a sticker to the client
+    io.on( 'drawSticker', function(stickerData) {
+        console.log("drawing sticker");
+        drawSingleSticker(stickerData);
+    });
+
+    io.on( 'drawHistory', function( allPaths, allStickers ) {
+        console.log("inside drawHistory");
+        console.log("size of allPaths " + allPaths.length);
+        for (i = 0; i < allPaths.length; i++) { 
+            var currPath = allPaths[i];
+            if (currPath.length > 0) {
+                console.log("size of currPaths " + currPath.length);
+                var oldPath = new Path();
+                var data = currPath[0];
+                oldPath.strokeWidth = getSize(data.size);
+                oldPath.strokeColor = data.color;
+                for (j = 0; j < currPath.length; j++) {
+                    // get the data point
+                    data = currPath[j];
+                    var point = new Point(data.x, data.y);
+                    oldPath.add(point);
+                }
+            }
+        }
+        // get each sticker data and draw the sticker
+        for (i = 0; i < allStickers.length; i++) {
+            var currSticker = allStickers[i];
+            drawSingleSticker(currSticker);
+        }
+        view.draw();
+    });
 
 };
 
