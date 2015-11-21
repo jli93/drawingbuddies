@@ -86,7 +86,6 @@ io.on('connection', function (socket) {
       socket.emit( 'pong', data );   
 
       console.log('socket: server sends pong (3)');
-
     });
 });
 
