@@ -9,13 +9,13 @@ a {
 
 canvas {
 	border: black solid 1px;
-	width: 75%;
+	width: 85%;
 }
 
 #container.col {
 	float: left;	
 	border: black solid 2px;
-	width: 20%;
+	width: 10%;
 	padding: 1em;
 
 
@@ -73,10 +73,13 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 	background-color: purple;
 }
 
-.color{
+.color {
 	height: 44px;
 	width: 44px;
 	border-radius: 10px;
+	margin: 5px;
+}
+.size {
 	margin: 5px;
 }
 
