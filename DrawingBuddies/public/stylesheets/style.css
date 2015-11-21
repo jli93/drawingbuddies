@@ -50,3 +50,42 @@ select option span {
 }
 
 select#color option[value="red"] { background-image:url(/images/pen.png);}
+
+#black {
+	background-color: black;
+}
+#red {
+	background-color: red;
+}
+#orange {
+	background-color: orange;
+}
+#yellow {
+	background-color: yellow;
+}
+#green {
+	background-color: green;
+}
+#blue {
+	background-color: blue;
+}
+#purple {
+	background-color: purple;
+}
+
+.color{
+	height: 44px;
+	width: 44px;
+	border-radius: 10px;
+	margin: 5px;
+}
+
+
+
+
+
+
+
+
+
+
