@@ -41,4 +41,5 @@ io.on( 'drawPath', function( data ) {
     otherPath = new Path();
     otherPath.strokeColor = 'black';
 	otherPath.add(data);
+	view.draw();
 });
