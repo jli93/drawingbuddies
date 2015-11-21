@@ -4,17 +4,6 @@ var myColor = 'black';
 var mySize = '5';
 var myTool = 'pen';
 
-// on click listener for tool
-function selectTool() {
-    // if tool is  eraser, then change color to white
-    var tool = document.getElementById("tool");
-    console.log("tool changed to " + tool);
-    myTool = tool.value;
-    if (myTool == 'eraser') {
-        myColor = 'white';
-    }
-}
-
 function onMouseDown(event) {
 	myPath = new Path();
 	myPath.strokeColor = myColor;
@@ -86,13 +75,29 @@ function drawPath(data, clientnum){
 }
 
 var ready = function() {
-	$("#black").css("border", "solid black 1px");
+	$("#black").css("border", "solid black 3px");
+	$("#pen").css("border", "solid black 3px");
+
+	$("#tool div").click(function(){
+		$("#tool div").css("border", "none");
+		$(this).css("border", "solid black 3px");
+		myTool = $(this).attr("id");
+		console.log(myTool);
+		if (myTool == 'eraser') {
+	        myColor = 'white';
+	        $(".color").css("opacity","0.5");
+	    } else {
+	    	$(".color").css("opacity","1");
+	    }
+	});
 
 	$(".color").click(function(){
-		$(".color").css("border", "none");
-		$(this).css("border", "solid black 3px");
-		myColor = $(this).attr("id");
-		console.log(myColor);
+		if (myTool != "eraser"){
+			$(".color").css("border", "none");
+			$(this).css("border", "solid black 3px");
+			myColor = $(this).attr("id");
+			console.log(myColor);
+		}
 	});
 
 	$("#size").change(function(){
