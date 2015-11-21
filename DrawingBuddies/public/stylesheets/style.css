@@ -14,13 +14,14 @@ a {
 }
 
 canvas {
-	border: black solid 1px;
+	border: black solid 4px;
 
 }
 
 #container.col {
 	float: left;	
-	border: black solid 2px;
+	border: black solid 4px;
+	border-right: 1px;
 	width: 65px;
 	height: 700px;
 	padding: .5em;
