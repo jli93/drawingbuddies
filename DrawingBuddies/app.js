@@ -24,12 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// 3. Configure error handling
-  // app.use(express.errorHandler());
-
-
-// // error handlers
+// error handlers
 
 // development error handler
 // will print stacktrace
@@ -55,9 +50,6 @@ app.use(function(err, req, res, next) {
 
 
 // 4. Setup Routes
-// app.get('/', routes.index);
-// app.get('/users', user.list);
-
 app.use('/', routes);
 app.use('/users', users);
 
@@ -83,18 +75,6 @@ var allStickers = [];
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
     socket.emit('drawHistory', allPaths, allStickers );
-
-    // (2): The server recieves a ping event
-    // from the browser on this socket
-    socket.on('ping', function ( data ) {
-      console.log('socket: server recieves ping (2)');
-
-      // (3): Emit a pong event all listening browsers
-      // with the data from the ping event
-      io.sockets.emit( 'pong', data );   
-
-      console.log('socket: server sends pong to all (3)');
-    });
 
     socket.on( 'drawPath', function( data, session ) {
       console.log( "session " + session + " drew:");
