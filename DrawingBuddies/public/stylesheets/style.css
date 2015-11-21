@@ -45,6 +45,6 @@ select {
        -moz-appearance: none;
             appearance: none;
 }
-select#size {
-	
+select option span {
+	padding: 2em 0;
 }
