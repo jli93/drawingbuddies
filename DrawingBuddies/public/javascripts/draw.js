@@ -4,27 +4,44 @@ var myColor = 'black';
 var mySize = '5';
 var myTool = 'pen';
 
-// on click listener for tool
-function selectTool() {
-    // if tool is  eraser, then change color to white
-    var tool = document.getElementById("tool");
-    console.log("tool changed to " + tool);
-    myTool = tool.value;
-    if (myTool == 'eraser') {
-        myColor = 'white';
+io.on( 'drawHistory', function( allPaths ) {
+    console.log("inside drawHistory");
+    console.log("size of allPaths " + allPaths.length);
+    for (i = 0; i < allPaths.length; i++) { 
+        var currPath = allPaths[i];
+        if (currPath.length > 0) {
+            console.log("size of currPaths " + currPath.length);
+            var oldPath = new Path();
+            var data = currPath[0];
+            oldPath.strokeWidth = getSize(data.size);
+            oldPath.strokeColor = data.color;
+            for (j = 0; j < currPath.length; j++) {
+                // get the data point
+                data = currPath[j];
+                var point = new Point(data.x, data.y);
+                oldPath.add(point);
+            }
+        }
+
+    }
+    view.draw();
+});
+
+// returns the integer size for the corresponding string size
+function getSize(size) {
+    if (size == 'sm') {
+        return 2;
+    } else if (mySize == 'md') {
+        return 7;
+    } else if (mySize == 'lg'){
+        return 15;
     }
 }
 
 function onMouseDown(event) {
 	myPath = new Path();
 	myPath.strokeColor = myColor;
-    if (mySize == 'sm') {
-        myPath.strokeWidth = 2;
-    } else if (mySize == 'md') {
-        myPath.strokeWidth = 5;
-    } else if (mySize == 'lg'){
-        myPath.strokeWidth = 8;
-    }
+    myPath.strokeWidth = getSize(mySize);
 }
 
 function onMouseDrag(event) {
@@ -43,7 +60,7 @@ function onMouseUp(event) {
 function initPath(clientnum, clientColor, clientSize){
 	p = new Path();
 	p.strokeColor = clientColor;
-    p.strokeWidth = clientSize;
+    p.strokeWidth = getSize(clientSize);
 	otherPaths[clientnum] = p;
 }
 
