@@ -27,14 +27,14 @@ html
 
         .select-style
             select#color
-                - list = ["red", "orange", "yellow", "green", "blue", "purple", "black"]
+                - list = ["black", "red", "orange", "yellow", "green", "blue", "purple"]
                 each item in list
                     option= item
         .select-style
             select#size
                 - list = ["sm", "md", "lg"]
                 each item in list
-                    option= item
+                    option(value=item, selected=(item=="md"))=item
 
 
         
