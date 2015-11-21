@@ -17,6 +17,7 @@ canvas {
 	border: black solid 2px;
 	width: 10%;
 	padding: .5em;
+	text-align: center;
 
 }
 .select-style{
@@ -77,6 +78,7 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 	width: 44px;
 	border-radius: 10px;
 	margin: 5px;
+	display: inline-block;
 }
 .size {
 	margin: 5px;
