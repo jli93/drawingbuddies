@@ -83,8 +83,8 @@ io.sockets.on('connection', function (socket) {
       // (3): Emit a pong event all listening browsers
       // with the data from the ping event
       io.sockets.emit( 'pong', data );   
-      console.log('socket: server sends pong to all (3)');
 
+      console.log('socket: server sends pong to all (3)');
     });
 });
 
