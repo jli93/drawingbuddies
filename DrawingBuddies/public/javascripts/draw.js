@@ -30,14 +30,15 @@ function emitPath( point ) {
     io.emit( 'drawPath', data, sessionId )
 
     // Lets have a look at the data we're sending
+    console.log("sending")
     console.log( data )
     console.log(sessionId)
 }
 
 io.on( 'drawPath', function( data ) {
-
+	console.log("received:")
     console.log( data );
     otherPath = new Path();
     otherPath.strokeColor = 'black';
-	otherPath.add(new Point(data.x, data.y));
+	otherPath.add(data);
 });
