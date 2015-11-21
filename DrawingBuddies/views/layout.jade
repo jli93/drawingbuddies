@@ -14,11 +14,16 @@ html
     <!-- The tool container -->
     #container.col
         div#tool
-            input(type='radio', name='tool', value='pen', checked)
+            #pen
+                img(src="/images/pen.png" alt="pen")
+            #eraser
+                img(src="/images/rubber.png" alt="eraser")  
+            <!-- input(type='radio', name='tool', value='pen', checked)
             | Pen
 
             input(type='radio', name='tool', value='eraser')
-            | Eraser
+
+            | Erasor -->
 
         .select-style
             select#color
@@ -31,4 +36,6 @@ html
                 each item in list
                     option= item
 
+
+        
 

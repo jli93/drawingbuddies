@@ -48,3 +48,5 @@ select {
 select option span {
 	padding: 2em 0;
 }
+
+select#color option[value="red"] { background-image:url(/images/pen.png);}
