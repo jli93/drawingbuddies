@@ -82,7 +82,10 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 	display: inline-block;
 }
 .size {
-	margin: 5px;
+	padding: 5px;
+	border-radius: 10px;
+	width: 44px;
+	margin: auto;
 }
 
 

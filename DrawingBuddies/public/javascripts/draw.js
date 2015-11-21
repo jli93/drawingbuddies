@@ -134,7 +134,11 @@ var ready = function() {
 	});
 
 	$(".size").click(function(){
+		$(".size").css("border", "none");
+		$(".size").css("background-color", "transparent");
 		mySize = $(this).attr("id");
+		$(this).css("border", "solid black 2px");
+		$(this).css("background-color", "LightCyan");
 		console.log(mySize);
 	});
 
