@@ -27,7 +27,7 @@ function selectSize() {
 function selectTool() {
     // if tool is  eraser, then change color to white
     var tool = document.getElementById("tool");
-    myTool = tool.options[tool.selectTool].value;
+    myTool = tool.value;
     if (myTool == 'eraser') {
         myColor = 'white';
     }
