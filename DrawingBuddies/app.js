@@ -71,9 +71,15 @@ var currPath = [];
 // stores all the stickers ever drawn
 var allStickers = [];
 
+// true if in the process of creating a path
+var creatingPath = false;
+
 
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
+    if (creatingPath) {
+      allPaths.push(currPath);
+    }
     socket.emit('drawHistory', allPaths, allStickers );
 
     socket.on( 'drawPath', function( data, session ) {
@@ -82,6 +88,7 @@ io.sockets.on('connection', function (socket) {
       io.sockets.emit( 'drawPath', data, session );
       // add the data point to currPath
       currPath.push(data);
+      creatingPath = true;
     });
 
     socket.on( 'drawSticker', function(stickerData) {
@@ -98,6 +105,7 @@ io.sockets.on('connection', function (socket) {
       // add the currPath to allPath and reset currPath
       allPaths.push(currPath);
       currPath = [];
+      creatingPath = false;
     });
 });
 
