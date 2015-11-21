@@ -1,29 +1,8 @@
 var myPath;
 var otherPaths = {};
-
 var myColor = 'black';
 var mySize = '5';
 var myTool = 'pen';
-
-window.onload = function () {
-    document.getElementById("color").onclick = selectColor;
-    document.getElementById("size").onclick = selectSize;
-    document.getElementById("tool").onclick = selectTool;
-};
-
-// on click listener for color
-function selectColor() {
-    var color = document.getElementById("color");
-    console.log("color changed to " + color);
-    myColor = color.options[color.selectedIndex].text;
-}
-
-// on click listener for size
-function selectSize() {
-    var size = document.getElementById("size");
-    console.log("size changed to " + size);
-    mySize = size.options[size.selectedIndex].value;
-}
 
 // on click listener for tool
 function selectTool() {
@@ -106,10 +85,28 @@ function drawPath(data, clientnum){
 	view.draw();
 }
 
-io.on( 'drawPath', function( data , clientnum) {
-    drawPath(data, clientnum);
-});
+var ready = function() {
 
-io.on( 'endPath', function( session ){
-	otherPaths[session] = null;
-});
+	$("#color").change(function(){
+		myColor = $(this).val();
+		console.log(myColor);
+	});
+
+	$("#size").change(function(){
+		mySize = $(this).val();
+		console.log(mySize);
+	});
+
+	io.on( 'drawPath', function( data , clientnum) {
+	    drawPath(data, clientnum);
+	});
+
+	io.on( 'endPath', function( session ){
+		otherPaths[session] = null;
+	});
+
+};
+
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
