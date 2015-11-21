@@ -117,7 +117,9 @@ var ready = function() {
 	    } else {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
-	    		$(this).css("border");
+	    		if($(this).css("border") != "none"){
+	    			myColor = $(this).attr("id");
+	    		}
 	    	});
 	    }
 	});
