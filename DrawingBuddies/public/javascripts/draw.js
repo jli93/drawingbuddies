@@ -31,9 +31,9 @@ io.on( 'drawHistory', function( allPaths ) {
 function getSize(size) {
     if (size == 'sm') {
         return 2;
-    } else if (mySize == 'md') {
+    } else if (size == 'md') {
         return 7;
-    } else if (mySize == 'lg'){
+    } else if (size == 'lg'){
         return 15;
     }
 }
