@@ -9,15 +9,15 @@ a {
 
 canvas {
 	border: black solid 1px;
-	width: 75%;
+	width: 85%;
 }
 
 #container.col {
 	float: left;	
 	border: black solid 2px;
-	width: 20%;
-	padding: 1em;
-
+	width: 10%;
+	padding: .5em;
+	text-align: center;
 
 }
 .select-style{
@@ -73,16 +73,25 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 	background-color: purple;
 }
 
-.color{
+.color {
 	height: 44px;
 	width: 44px;
 	border-radius: 10px;
 	margin: 5px;
+	display: inline-block;
+}
+.size {
+	margin: 5px;
 }
 
 
-
-
+#pen, #eraser {
+	padding: 5px;
+	overflow: hidden;
+}
+#pen img, #eraser img {
+	width: 54px;
+}
 
 
 

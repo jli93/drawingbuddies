@@ -15,15 +15,10 @@ html
     #container.col
         div#tool
             #pen
-                img(src="/images/pen.png" alt="pen")
+                img(src="/images/pen.png" alt="pen" style="max-height: 50px; max-width: 50px;")
             #eraser
-                img(src="/images/rubber.png" alt="eraser")  
-            <!-- input(type='radio', name='tool', value='pen', checked)
-            | Pen
+                img(src="/images/rubber.png" alt="eraser" style="max-height: 50px; max-width: 50px;")  
 
-            input(type='radio', name='tool', value='eraser')
-
-            | Erasor -->
         div
             div#black.color
             div#red.color
@@ -32,13 +27,14 @@ html
             div#green.color
             div#blue.color
             div#purple.color
-            
 
-        .select-style
-            select#size
-                - list = ["sm", "md", "lg"]
-                each item in list
-                    option(value=item, selected=(item=="md"))=item
+        div
+            #sm.size
+                img(src="/images/circle.png" alt="small" style="max-height: 10px; max-width: 10px;")
+            #md.size
+                img(src="/images/circle.png" alt="medium" style="max-height: 20px; max-width: 20px;")
+            #lg.size
+                img(src="/images/circle.png" alt="large" style="max-height: 30px; max-width: 30px;")
 
 
         

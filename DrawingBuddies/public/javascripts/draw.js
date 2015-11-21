@@ -103,14 +103,33 @@ function drawPath(data, clientnum){
 }
 
 var ready = function() {
+	$("#black").css("border", "solid black 3px");
+	$("#pen").css("border", "solid black 3px");
 
-	$("#color").change(function(){
-		myColor = $(this).val();
-		console.log(myColor);
+	$("#tool div").click(function(){
+		$("#tool div").css("border", "none");
+		$(this).css("border", "solid black 3px");
+		myTool = $(this).attr("id");
+		console.log(myTool);
+		if (myTool == 'eraser') {
+	        myColor = 'white';
+	        $(".color").css("opacity","0.5");
+	    } else {
+	    	$(".color").css("opacity","1");
+	    }
 	});
 
-	$("#size").change(function(){
-		mySize = $(this).val();
+	$(".color").click(function(){
+		if (myTool != "eraser"){
+			$(".color").css("border", "none");
+			$(this).css("border", "solid black 3px");
+			myColor = $(this).attr("id");
+			console.log(myColor);
+		}
+	});
+
+	$(".size").click(function(){
+		mySize = $(this).attr("id");
 		console.log(mySize);
 	});
 
