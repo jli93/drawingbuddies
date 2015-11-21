@@ -1,16 +1,10 @@
 // Connect to the Node.js Server
 io = io();
 
-<<<<<<< HEAD
-// (1): send a ping event with some data to the Server
-console.log("socket: browser says ping (1)")
-io.emit('ping', { some: 'data'});
-=======
 // (1): Send a ping event with 
 // some data to the server
 console.log( "socket: browser says ping (1)" );
 io.emit('ping', { some: 'data' } );
->>>>>>> origin/master
 
 // (4): When the browser receives a pong event
 // console log a message and the events data
