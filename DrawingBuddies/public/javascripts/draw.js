@@ -22,7 +22,7 @@ function onMouseDown(event) {
         myPath.strokeWidth = 2;
     } else if (mySize == 'md') {
         myPath.strokeWidth = 5;
-    } else {
+    } else if (mySize == 'lg'){
         myPath.strokeWidth = 8;
     }
 }
