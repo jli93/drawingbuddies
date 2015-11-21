@@ -86,9 +86,12 @@ function drawPath(data, clientnum){
 }
 
 var ready = function() {
+	$("#black").css("border", "solid black 1px");
 
-	$("#color").change(function(){
-		myColor = $(this).val();
+	$(".color").click(function(){
+		$(".color").css("border", "none");
+		$(this).css("border", "solid black 3px");
+		myColor = $(this).attr("id");
 		console.log(myColor);
 	});
 
