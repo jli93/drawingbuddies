@@ -45,12 +45,24 @@ function onMouseDown(event) {
 }
 
 function onMouseDrag(event) {
-	myPath.add(event.point);
-	emitPath(event.point, myColor, mySize, myTool);
+    if (myTool != 'fbicon') {
+    	myPath.add(event.point);
+    	emitPath(event.point, myColor, mySize, myTool);
+    }
 }
 
 function onMouseUp(event) {
-	myPath = null;
+    if (myTool == 'fbicon') {
+        var img = document.createElement("img");
+        img.src = "/images/fbicon.png";
+        img.id = "fbicon2"
+        document.body.appendChild(img);
+        // add icon to mouse location
+        var raster = new Raster('fbicon2');
+        raster.position = event.point;
+        raster.scale(0.02);
+    }
+ 	myPath = null;
 	endPath();
 }
 
@@ -114,14 +126,17 @@ var ready = function() {
 		if (myTool == 'eraser') {
 	        myColor = 'white';
 	        $(".color").css("opacity","0.5");
-	    } else {
+	    } else if (myTool == 'pen') {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
 	    		if($(this).css("border-style") == "solid"){
 	    			myColor = $(this).attr("id");
 	    		}
 	    	});
-	    }
+	    } else {
+            // TODO: fb sticker!
+            $(".color").css("opacity","0.5");
+        }
 	});
 
 	$(".color").click(function(){
@@ -134,7 +149,11 @@ var ready = function() {
 	});
 
 	$(".size").click(function(){
+		$(".size").css("border", "none");
+		$(".size").css("background-color", "transparent");
 		mySize = $(this).attr("id");
+		$(this).css("border", "solid black 2px");
+		$(this).css("background-color", "LightCyan");
 		console.log(mySize);
 	});
 
