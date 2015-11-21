@@ -1,6 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url("/images/contemporary_china.png");
 }
 
 h1 {
@@ -15,6 +16,7 @@ a {
 
 canvas {
 	border: black solid 1px;
+	background-color: white;
 
 }
 
@@ -25,6 +27,7 @@ canvas {
 	height: 700px;
 	padding: .5em;
 	text-align: center;
+	background-color: #F5F5F5;
 
 }
 .select-style{
