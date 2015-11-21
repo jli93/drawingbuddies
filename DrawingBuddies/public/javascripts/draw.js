@@ -39,6 +39,7 @@ function drawPath(x, y){
 	otherPath = new Path();
     otherPath.strokeColor = 'black';
 	otherPath.add(new Point(x, y));
+	otherPath.closed = true;
 	view.draw();
 }
 
