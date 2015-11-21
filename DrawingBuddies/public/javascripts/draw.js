@@ -100,8 +100,8 @@ var ready = function() {
 		}
 	});
 
-	$("#size").change(function(){
-		mySize = $(this).val();
+	$(".size").click(function(){
+		mySize = $(this).attr("id");
 		console.log(mySize);
 	});
 
