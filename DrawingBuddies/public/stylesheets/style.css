@@ -9,15 +9,44 @@ a {
 
 canvas {
 	border: black solid 1px;
+	width: 75%;
 }
 
 #container.col {
 	float: left;	
 	border: black solid 2px;
-}
+	width: 20%;
+	padding: 1em;
 
-select, input {
+
+}
+.select-style{
+	padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #fff;
+
+    background: #fff url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
+}
+select {
+
 	display: block;
+
+	padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+select option span {
+	padding: 2em 0;
 }
 
 select#color option[value="red"] { background-image:url(/images/pen.png);}

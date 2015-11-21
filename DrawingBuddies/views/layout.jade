@@ -21,17 +21,20 @@ html
             | Pen
 
             input(type='radio', name='tool', value='eraser')
+
             | Erasor -->
 
-        select#size
-            - list = ["sm", "md", "lg"]
-            each item in list
-                option= item
+        .select-style
+            select#color
+                - list = ["red", "orange", "yellow", "green", "blue", "purple", "black"]
+                each item in list
+                    option= item
+        .select-style
+            select#size
+                - list = ["sm", "md", "lg"]
+                each item in list
+                    option= item
 
-        select#color
-            - list = ["black", "red", "orange", "yellow", "green", "blue", "purple"]
-            each item in list
-                option= item
 
         
 
