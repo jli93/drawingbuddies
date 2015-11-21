@@ -13,13 +13,13 @@ function onMouseDrag(event) {
 
 function onMouseUp(event) {
 	myPath = null;
-	endPath()
+	endPath();
 }
 
-function initPath(){
+function initPath(clientnum){
 	p = new Path();
 	p.strokeColor = 'black';
-	otherPaths[io.io.engine.id] = p;
+	otherPaths[clientnum] = p;
 }
 // This function sends the data for a circle to the server
 // so that the server can broadcast it to every other user
@@ -42,18 +42,26 @@ function emitPath( point ) {
     console.log(sessionId)
 }
 
-function drawPath(x, y){
-	if (!otherPath){
-		initPath();
+function endPath(){
+	io.emit('endPath', io.io.engine.id);
+}
+
+function drawPath(x, y, clientnum){
+	if (!otherPaths[clientnum]){
+		initPath(clientnum);
 	}
 	var p = new Point(x,y);
-	otherPath.add(p);
+	otherPaths[clientnum].add(p);
 	view.draw();
 }
 
-io.on( 'drawPath', function( data ) {
+io.on( 'drawPath', function( data , clientnum) {
 	console.log("received:")
     console.log( data.x );
     console.log( data.y );
-    drawPath(data.x, data.y);
+    drawPath(data.x, data.y, clientnum);
+});
+
+io.on( 'endPath', function( session ){
+	otherPaths[session] = null;
 });
