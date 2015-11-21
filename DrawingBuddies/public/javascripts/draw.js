@@ -23,22 +23,35 @@ function onMouseDown(event) {
 }
 
 function onMouseDrag(event) {
-    if (myTool != 'fbicon') {
+    if (myTool == 'pen' || myTool == '') {
     	myPath.add(event.point);
     	emitPath(event.point, myColor, mySize, myTool);
     }
 }
 
 function onMouseUp(event) {
-    if (myTool == 'fbicon') {
+    if (myTool == 'fbicon' || myTool == 'smiley') {
         console.log("drawing fb sticker");
+        var stickerSrc;
+        var stickerId;
+        var stickerScale;
+        if (myTool == 'fbicon') {
+            stickerSrc = "/images/fbicon.png";
+            stickerId = "fbicon2";
+            stickerScale = 0.02;
+        } else if (myTool == 'smiley') {
+            stickerSrc = "/images/smiley.png";
+            stickerId = "smiley2";
+            stickerScale = 0.35;
+        }
 
         // create sticker data and draw the sticker
         var stickerData = {
             x: event.point.x,
             y: event.point.y,
-            src: "/images/fbicon.png",
-            id: "fbicon2"
+            src: stickerSrc,
+            id: stickerId,
+            scale: stickerScale
         };
 
         drawSingleSticker(stickerData);
@@ -108,7 +121,7 @@ function drawSingleSticker(sticker) {
     var raster = new Raster(img.id);
     var point = new Point(sticker.x, sticker.y);
     raster.position = point;
-    raster.scale(0.02);
+    raster.scale(sticker.scale);
 }
 
 var ready = function() {
