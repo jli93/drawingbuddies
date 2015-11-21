@@ -14,12 +14,14 @@ window.onload = function () {
 // on click listener for color
 function selectColor() {
     var color = document.getElementById("color");
-    myColor = color.options[color.selectedIndex].value;
+    console.log("color changed to " + color);
+    myColor = color.options[color.selectedIndex].text;
 }
 
 // on click listener for size
 function selectSize() {
     var size = document.getElementById("size");
+    console.log("size changed to " + size);
     mySize = size.options[size.selectedIndex].value;
 }
 
@@ -27,7 +29,8 @@ function selectSize() {
 function selectTool() {
     // if tool is  eraser, then change color to white
     var tool = document.getElementById("tool");
-    myTool = tool.options[tool.selectTool].value;
+    console.log("tool changed to " + tool);
+    myTool = tool.value;
     if (myTool == 'eraser') {
         myColor = 'white';
     }
@@ -36,7 +39,13 @@ function selectTool() {
 function onMouseDown(event) {
 	myPath = new Path();
 	myPath.strokeColor = myColor;
-    myPath.strokeWidth = mySize;
+    if (mySize == 'sm') {
+        myPath.strokeWidth = 2;
+    } else if (mySize == 'md') {
+        myPath.strokeWidth = 5;
+    } else {
+        myPath.strokeWidth = 8;
+    }
 }
 
 function onMouseDrag(event) {
