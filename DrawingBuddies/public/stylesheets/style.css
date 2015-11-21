@@ -16,8 +16,7 @@ canvas {
 	float: left;	
 	border: black solid 2px;
 	width: 10%;
-	padding: 1em;
-
+	padding: .5em;
 
 }
 .select-style{
@@ -84,8 +83,13 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 }
 
 
-
-
+#pen, #eraser {
+	padding: 5px;
+	overflow: hidden;
+}
+#pen img, #eraser img {
+	width: 54px;
+}
 
 
 
