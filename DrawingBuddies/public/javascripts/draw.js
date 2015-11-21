@@ -22,7 +22,8 @@ function emitPath( point ) {
   
     // An object to describe the circle's draw data
     var data = {
-        p: point
+        x: point.x,
+        y: point.y
     };
 
     // send a 'drawCircle' event with data and sessionId to the server
@@ -38,5 +39,5 @@ io.on( 'drawPath', function( data ) {
     console.log( data );
     otherPath = new Path();
     otherPath.strokeColor = 'black';
-	otherPath.add(data.p);
+	otherPath.add(new Point(data.x, data.y));
 });
