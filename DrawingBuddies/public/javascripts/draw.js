@@ -1,6 +1,10 @@
 var myPath;
 var otherPaths = {};
 
+var color = 'black';
+var size = '5';
+var tool = 'pen';
+
 function onMouseDown(event) {
 	myPath = new Path();
 	myPath.strokeColor = 'black';
