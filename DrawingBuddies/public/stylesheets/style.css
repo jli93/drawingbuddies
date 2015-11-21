@@ -19,3 +19,5 @@ canvas {
 select, input {
 	display: block;
 }
+
+select#color option[value="red"] { background-image:url(/images/pen.png);}
