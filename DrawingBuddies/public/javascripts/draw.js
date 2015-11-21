@@ -41,7 +41,7 @@ function onMouseDown(event) {
 
 function onMouseDrag(event) {
 	myPath.add(event.point);
-	emitPath(event.point);
+	emitPath(event.point, myColor, mySize, myTool);
 }
 
 function onMouseUp(event) {
@@ -49,18 +49,19 @@ function onMouseUp(event) {
 	endPath();
 }
 
+
 // called for when other clients draw on the board and they
 // don't have a path.
 function initPath(clientnum, clientColor, clientSize){
 	p = new Path();
-	myPath.strokeColor = clientColor;
-    myPath.strokeWidth = clientSize;
+	p.strokeColor = clientColor;
+    p.strokeWidth = clientSize;
 	otherPaths[clientnum] = p;
 }
 
 // This function sends the data for a circle to the server
 // so that the server can broadcast it to every other user
-function emitPath( point ) {
+function emitPath( point, color, size, tool) {
     // Each Socket.IO connection has a unique session id
     var sessionId = io.io.engine.id;
   
@@ -69,7 +70,8 @@ function emitPath( point ) {
         x: point.x,
         y: point.y,
         color: myColor,
-        size: mySize
+        size: mySize,
+        tool: myTool
     };
 
     // send a 'drawCircle' event with data and sessionId to the server
@@ -85,20 +87,18 @@ function endPath(){
 	io.emit('endPath', io.io.engine.id);
 }
 
-function drawPath(x, y, clientnum, clientColor, clientSize){
+
+function drawPath(data, clientnum){
 	if (!otherPaths[clientnum]){
-		initPath(clientnum, clientColor, clientSize);
+		initPath(clientnum, data.color, data.size);
 	}
-	var p = new Point(x,y);
+	var p = new Point(data.x, data.y);
 	otherPaths[clientnum].add(p);
 	view.draw();
 }
 
-io.on( 'drawPath', function( data , clientnum ) {
-	console.log("received:")
-    console.log( data.x );
-    console.log( data.y );
-    drawPath(data.x, data.y, clientnum, data.color, data.size);
+io.on( 'drawPath', function( data , clientnum) {
+    drawPath(data, clientnum);
 });
 
 io.on( 'endPath', function( session ){
