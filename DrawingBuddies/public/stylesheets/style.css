@@ -18,7 +18,6 @@ canvas {
 	width: 10%;
 	padding: .5em;
 
-
 }
 .select-style{
 	padding: 0;
@@ -73,10 +72,13 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 	background-color: purple;
 }
 
-.color{
+.color {
 	height: 44px;
 	width: 44px;
 	border-radius: 10px;
+	margin: 5px;
+}
+.size {
 	margin: 5px;
 }
 
