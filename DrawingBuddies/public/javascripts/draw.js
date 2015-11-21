@@ -57,6 +57,7 @@ function onMouseUp(event) {
         img.src = "/images/fbicon.png";
         img.id = "fbicon2"
         document.body.appendChild(img);
+        $(img).css("display", "none");
         // add icon to mouse location
         var raster = new Raster('fbicon2');
         raster.position = event.point;
