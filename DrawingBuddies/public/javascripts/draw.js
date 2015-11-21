@@ -198,6 +198,7 @@ var ready = function() {
                     var point = new Point(data.x, data.y);
                     oldPath.add(point);
                 }
+                view.draw();
             }
         }
         // get each sticker data and draw the sticker
