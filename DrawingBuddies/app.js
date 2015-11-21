@@ -86,6 +86,12 @@ io.sockets.on('connection', function (socket) {
 
       console.log('socket: server sends pong to all (3)');
     });
+
+    socket.on( 'drawPath', function( data, session ) {
+      console.log( "session " + session + " drew:");
+      console.log( data );
+      io.sockets.emit( 'drawPath', data );
+    });
 });
 
 
