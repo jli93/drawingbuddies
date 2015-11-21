@@ -16,6 +16,6 @@ canvas {
 	border: black solid 2px;
 }
 
-select {
+select, input {
 	display: block;
 }

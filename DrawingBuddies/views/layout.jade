@@ -12,6 +12,13 @@ html
     block content
     <!-- The tool container -->
     #container.col
+        div#tool
+            input(type='radio', name='tool', value='pen', checked)
+            | Pen
+
+            input(type='radio', name='tool', value='eraser')
+            | Erasor
+
         select#color
             - list = ["red", "orange", "yellow", "green", "blue", "purple", "black"]
             each item in list
