@@ -20,23 +20,16 @@ function getSize(size) {
 }
 
 function onMouseDown(event) {
-<<<<<<< HEAD
-	myPath = new Path();
-	myPath.strokeColor = myColor;
-    myPath.strokeWidth = getSize(mySize);
-
-    var pageCoords = "( down," + event.point + " )";
-    console.log(pageCoords);
-=======
     if (myTool == 'pen' || myTool == 'eraser') {
         myPath = new Path();
         myPath.strokeColor = myColor;
         myPath.strokeWidth = getSize(mySize); 
     } else { // myTool is a shape
         // store the x, y points
-        
+        console.log("something");
     }
->>>>>>> 6e0642290c9a83894e6b69aaad03edf12c43bb39
+    var pageCoords = "( down," + event.point + " )";
+    console.log(pageCoords);
 }
 
 function onMouseDrag(event) {
@@ -51,10 +44,6 @@ function onMouseDrag(event) {
 function onMouseUp(event) {
     // if the tool selected was a sticker
     if (myTool == 'fbicon' || myTool == 'smiley') {
-<<<<<<< HEAD
-=======
-        console.log("drawing sticker");
->>>>>>> 6e0642290c9a83894e6b69aaad03edf12c43bb39
         var stickerSrc;
         var stickerId;
         var stickerScale;
