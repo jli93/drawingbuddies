@@ -32,7 +32,7 @@ function onMouseDrag(event) {
 function onMouseUp(event) {
     // if the tool selected was a sticker
     if (myTool == 'fbicon' || myTool == 'smiley') {
-        console.log("drawing fb sticker");
+        console.log("drawing sticker");
         var stickerSrc;
         var stickerId;
         var stickerScale;
