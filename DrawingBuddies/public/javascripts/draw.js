@@ -167,7 +167,7 @@ var ready = function() {
 		if (myTool == 'eraser') {
 	        myColor = 'white';
 	        $(".color").css("opacity","0.5");
-	    } else if (myTool == 'pen') {
+	    } else if (myTool == 'pen' || myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
 	    		if($(this).css("border-style") == "solid"){
