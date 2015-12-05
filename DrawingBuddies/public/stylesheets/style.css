@@ -29,6 +29,9 @@ canvas {
 	text-align: center;
 	background-color: #F5F5F5;
 }
+#container#tool, #container#color{
+	float: left;
+}
 
 .select-style{
 	padding: 0;
