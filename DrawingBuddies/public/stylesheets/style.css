@@ -30,7 +30,7 @@ canvas {
 	text-align: center;
 	background-color: #F5F5F5;
 }
-#tool, #color{
+#toolbar, #color{
 	float: left;
 }
 #color{

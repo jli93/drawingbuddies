@@ -30,10 +30,23 @@ function simulateDrag(x, y) {
     var el = document.elementFromPoint(x, y);
     jQuery(el).mousemove();
 }
+function simulateDraw(x,y){
+    var ev = document.createEvent("MouseEvent");
+    var el = document.elementFromPoint(x,y);
+    ev.initMouseEvent(
+        "click",
+        true /* bubble */, true /* cancelable */,
+        window, null,
+        x, y, 0, 0, /* coordinates */
+        false, false, false, false, /* modifier keys */
+        0 /*left*/, null
+    );
+
+}
 var ready2 = function() {
     console.log("time to simulate");
     $("#eraser").click();
     simulateClick(100, 500);
-    simulateClick(400, 350);
+    simulateDraw(400, 350);
 
 };
