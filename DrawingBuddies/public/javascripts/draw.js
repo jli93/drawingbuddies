@@ -30,6 +30,7 @@ function onMouseDrag(event) {
 }
 
 function onMouseUp(event) {
+    // if the tool selected was a sticker
     if (myTool == 'fbicon' || myTool == 'smiley') {
         console.log("drawing fb sticker");
         var stickerSrc;
@@ -58,6 +59,7 @@ function onMouseUp(event) {
         // send sticker to server
         io.emit( 'drawSticker', stickerData );
     }
+    // else the tool selected was the pen/eraser
  	myPath = null;
 	endPath();
 }
