@@ -4,6 +4,9 @@ var myColor = 'black';
 var mySize = '5';
 var myTool = 'pen';
 
+// used for when client draws a shape (triangle, rectangle, circle)
+var initialX;
+var initialY;
 
 // returns the integer size for the corresponding string size
 function getSize(size) {
@@ -17,9 +20,14 @@ function getSize(size) {
 }
 
 function onMouseDown(event) {
-	myPath = new Path();
-	myPath.strokeColor = myColor;
-    myPath.strokeWidth = getSize(mySize);
+    if (myTool == 'pen' || myTool == 'eraser') {
+        myPath = new Path();
+        myPath.strokeColor = myColor;
+        myPath.strokeWidth = getSize(mySize); 
+    } else { // myTool is a shape
+        // store the x, y points
+        
+    }
 }
 
 function onMouseDrag(event) {

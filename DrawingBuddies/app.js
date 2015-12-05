@@ -79,7 +79,11 @@ var count = 0;
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
     if (creatingPath) {
-      allPaths.push(currPath);
+      allPaths.push({
+        key: count,
+        value: currPath
+      });
+      count++;
     }
     socket.emit('drawHistory', allPaths, allStickers );
 
