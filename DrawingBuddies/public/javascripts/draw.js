@@ -30,6 +30,7 @@ function onMouseDown(event) {
     }
     var pageCoords = "( down," + event.point + " )";
     console.log(pageCoords);
+    console.log(event);
 }
 
 function onMouseDrag(event) {
@@ -233,7 +234,7 @@ var ready = function() {
         }
 
     });
-
+    ready2();
 };
 
 

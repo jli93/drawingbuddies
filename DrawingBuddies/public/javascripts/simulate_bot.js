@@ -12,19 +12,25 @@ function click(x,y){
     el.dispatchEvent(ev);
 }
 function simulateDown(x, y) {
-    jQuery(document.elementFromPoint(x, y)).mousedown();
+    var el = document.elementFromPoint(x, y);
+    jQuery(el).mousedown();
+}
+function simulateClick(x, y) {
+    
+    var el = document.elementFromPoint(x, y);
+    $(el).click();
+    console.log("clicking " + x + " " + y + " ");
+    console.log(el);
 }
 function simulateUp(x, y) {
-    jQuery(document.elementFromPoint(x, y)).trigger("click");
+    var el = document.elementFromPoint(x, y);
+    jQuery(el).trigger("mouseup");
 }
 function simulateDrag(x, y) {
-    jQuery(document.elementFromPoint(x, y)).mousemove();
+    var el = document.elementFromPoint(x, y);
+    jQuery(el).mousemove();
 }
-simulateClick(100, 250);
-simulateClick(400, 250);
-simulateDrag(400,251);
-simulateDrag(400,256);
-simulateUp(400,270);
-
-var e = jQuery.Event( "click", { pageX: 400, pageY: 250 } );
-$('canvas').trigger(e);
+var ready2 = function() {
+    console.log("time to simulate");
+    $("#eraser").click();
+};
