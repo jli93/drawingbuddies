@@ -21,8 +21,7 @@ function onMouseDown(event) {
 	myPath.strokeColor = myColor;
     myPath.strokeWidth = getSize(mySize);
 
-    var pageCoords = "( down," + event.point + ", " + myColor + ", " + mySize
-        + ", " + myTool + " )";
+    var pageCoords = "( down," + event.point + " )";
     console.log(pageCoords);
 }
 
@@ -31,8 +30,7 @@ function onMouseDrag(event) {
     	myPath.add(event.point);
     	emitPath(event.point, myColor, mySize, myTool);
     }
-    var pageCoords = "( drag," + event.point + ", " + myColor + ", " + mySize
-        + ", " + myTool + " )";
+    var pageCoords = "( drag," + event.point + " )";
     console.log(pageCoords);
 }
 
@@ -59,7 +57,7 @@ function onMouseUp(event) {
             id: stickerId,
             scale: stickerScale
         };
-        console.log("( sticker, " + stickerData + " )");
+        console.log("( sticker, " + event.point + " )");
 
         drawSingleSticker(stickerData);
         // send sticker to server
@@ -84,7 +82,7 @@ function initPath(clientnum, clientColor, clientSize){
 function emitPath( point, color, size, tool) {
     // Each Socket.IO connection has a unique session id
     var sessionId = io.io.engine.id;
-  
+
     // An object to describe the circle's draw data
     var data = {
         x: point.x,
@@ -135,7 +133,9 @@ var ready = function() {
 		$("#tool div").css("border", "none");
 		$(this).css("border", "solid black 3px");
 		myTool = $(this).attr("id");
-		console.log(myTool);
+
+		console.log("( tool, " + myTool + " )");
+
 		if (myTool == 'eraser') {
 	        myColor = 'white';
 	        $(".color").css("opacity","0.5");
@@ -157,7 +157,7 @@ var ready = function() {
 			$(".color").css("border", "none");
 			$(this).css("border", "solid black 3px");
 			myColor = $(this).attr("id");
-			console.log(myColor);
+			console.log("( color, " + myColor + " )");
 		}
 	});
 
@@ -167,7 +167,7 @@ var ready = function() {
 		mySize = $(this).attr("id");
 		$(this).css("border", "solid black 2px");
 		$(this).css("background-color", "LightCyan");
-		console.log(mySize);
+		console.log("( size, " + mySize + " )");
 	});
 
 	io.on( 'drawPath', function( data , clientnum) {
