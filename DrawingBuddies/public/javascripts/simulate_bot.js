@@ -35,4 +35,6 @@ var ready2 = function() {
     $("#eraser").click();
     simulateClick(100, 350);
     simulateClick(400, 350);
+    simulateClick(100, 750);
+    simulateClick(100, 850);
 };
