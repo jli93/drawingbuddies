@@ -33,4 +33,6 @@ function simulateDrag(x, y) {
 var ready2 = function() {
     console.log("time to simulate");
     $("#eraser").click();
+    simulateClick(100, 350);
+    simulateClick(400, 350);
 };
