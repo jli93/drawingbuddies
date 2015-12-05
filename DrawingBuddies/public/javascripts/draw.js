@@ -24,15 +24,28 @@ function getSize(size) {
 }
 
 function onMouseDown(event) {
+    var pageCoords = "( down," + event.point + " )";
+    console.log(pageCoords);
+
     if (myTool == 'pen' || myTool == 'eraser') {
         myPath = new Path();
         myPath.strokeColor = myColor;
         myPath.strokeWidth = getSize(mySize); 
-    } else { // TODO: test that myTool is a shape
-        // store the x, y points
+    } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
+        // store the x, y points as the center point of the shape
         initialX = event.point.x;
         initialY = event.point.y;
-        shape = new Path.RegularPolygon(new Point (initialX, initialY), 3, radius);
+        if (myTool == 'triangle') {
+            shape = new Path.RegularPolygon(new Point (initialX, initialY), 3, radius);
+        } else if (myTool == 'rectangle') {
+            var x1 = initialX - radius / 2;
+            var y1 = initialY - radius / 2;
+            var x2 = initialX + radius / 2;
+            var y2 = initialY + radius / 2;
+            shape = new Path.Rectangle(new Rectangle(new Point(x1, y1), new Point(x2, y2)));
+        } else if (myTool == 'circle') {
+            shape = new Path.circle(new Point(initialX, initialY), radius);
+        }
         shape.fillColor = myColor;
 
     }
@@ -170,7 +183,7 @@ var ready = function() {
 		if (myTool == 'eraser') {
 	        myColor = 'white';
 	        $(".color").css("opacity","0.5");
-	    } else if (myTool == 'pen') {
+	    } else if (myTool == 'pen' || myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
 	    		if($(this).css("border-style") == "solid"){
