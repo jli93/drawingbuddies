@@ -4,6 +4,9 @@ var myColor = 'black';
 var mySize = '5';
 var myTool = 'pen';
 
+// used for when client draws a shape (triangle, rectangle, circle)
+var initialX;
+var initialY;
 
 // returns the integer size for the corresponding string size
 function getSize(size) {
@@ -17,12 +20,23 @@ function getSize(size) {
 }
 
 function onMouseDown(event) {
+<<<<<<< HEAD
 	myPath = new Path();
 	myPath.strokeColor = myColor;
     myPath.strokeWidth = getSize(mySize);
 
     var pageCoords = "( down," + event.point + " )";
     console.log(pageCoords);
+=======
+    if (myTool == 'pen' || myTool == 'eraser') {
+        myPath = new Path();
+        myPath.strokeColor = myColor;
+        myPath.strokeWidth = getSize(mySize); 
+    } else { // myTool is a shape
+        // store the x, y points
+        
+    }
+>>>>>>> 6e0642290c9a83894e6b69aaad03edf12c43bb39
 }
 
 function onMouseDrag(event) {
@@ -35,7 +49,12 @@ function onMouseDrag(event) {
 }
 
 function onMouseUp(event) {
+    // if the tool selected was a sticker
     if (myTool == 'fbicon' || myTool == 'smiley') {
+<<<<<<< HEAD
+=======
+        console.log("drawing sticker");
+>>>>>>> 6e0642290c9a83894e6b69aaad03edf12c43bb39
         var stickerSrc;
         var stickerId;
         var stickerScale;
@@ -63,6 +82,7 @@ function onMouseUp(event) {
         // send sticker to server
         io.emit( 'drawSticker', stickerData );
     }
+    // else the tool selected was the pen/eraser
  	myPath = null;
 	endPath();
 }
