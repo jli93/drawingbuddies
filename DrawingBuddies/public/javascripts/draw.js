@@ -72,7 +72,7 @@ function initPath(clientnum, clientColor, clientSize){
 	otherPaths[clientnum] = p;
 }
 
-// This function sends the data for a circle to the server
+// This function sends the data for a path to the server
 // so that the server can broadcast it to every other user
 function emitPath( point, color, size, tool) {
     // Each Socket.IO connection has a unique session id
@@ -181,6 +181,8 @@ var ready = function() {
         drawSingleSticker(stickerData);
     });
 
+    // draw all the previous paths and stickers on the canvas
+    // so a new user has the history from previous users
     io.on( 'drawHistory', function( allPaths, allStickers ) {
         console.log("inside drawHistory");
         console.log("size of allPaths " + allPaths.length);
@@ -198,7 +200,7 @@ var ready = function() {
                     var point = new Point(data.x, data.y);
                     oldPath.add(point);
                 }
-                view.draw();
+                view.update();
             }
         }
         // get each sticker data and draw the sticker
@@ -206,7 +208,7 @@ var ready = function() {
             var currSticker = allStickers[i];
             drawSingleSticker(currSticker);
         }
-        view.draw();
+        view.update();
     });
 
 };
