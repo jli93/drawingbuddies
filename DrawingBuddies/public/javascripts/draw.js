@@ -20,6 +20,10 @@ function onMouseDown(event) {
 	myPath = new Path();
 	myPath.strokeColor = myColor;
     myPath.strokeWidth = getSize(mySize);
+
+    var pageCoords = "( down," + event.point + ", " + myColor + ", " + mySize
+        + ", " + myTool + " )";
+    console.log(pageCoords);
 }
 
 function onMouseDrag(event) {
@@ -27,11 +31,13 @@ function onMouseDrag(event) {
     	myPath.add(event.point);
     	emitPath(event.point, myColor, mySize, myTool);
     }
+    var pageCoords = "( drag," + event.point + ", " + myColor + ", " + mySize
+        + ", " + myTool + " )";
+    console.log(pageCoords);
 }
 
 function onMouseUp(event) {
     if (myTool == 'fbicon' || myTool == 'smiley') {
-        console.log("drawing fb sticker");
         var stickerSrc;
         var stickerId;
         var stickerScale;
@@ -90,10 +96,6 @@ function emitPath( point, color, size, tool) {
     // send a 'drawCircle' event with data and sessionId to the server
     io.emit( 'drawPath', data, sessionId )
 
-    // Lets have a look at the data we're sending
-    console.log("sending")
-    console.log( data )
-    console.log(sessionId)
 }
 
 function endPath(){
