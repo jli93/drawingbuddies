@@ -7,8 +7,8 @@ var myTool = 'pen';
 // used for when client draws a shape (triangle, rectangle, circle)
 var initialX;
 var initialY;
-var shape;
-var radius; // default size is 50
+var myShape;
+var myRadius; // default size is 50
 
 // returns the integer size for the corresponding string size
 function getSize(size) {
@@ -30,22 +30,22 @@ function onMouseDown(event) {
         myPath.strokeColor = myColor;
         myPath.strokeWidth = getSize(mySize); 
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
-        radius = 50;
+        myRadius = 50;
         // store the x, y points as the center point of the shape
         initialX = event.point.x;
         initialY = event.point.y;
         if (myTool == 'triangle') {
-            shape = new Path.RegularPolygon(new Point (initialX, initialY), 3, radius);
+            myShape = new Path.RegularPolygon(new Point (initialX, initialY), 3, myRadius);
         } else if (myTool == 'rectangle') {
-            var x1 = initialX - radius / 2;
-            var y1 = initialY - radius / 2;
-            var x2 = initialX + radius / 2;
-            var y2 = initialY + radius / 2;
-            shape = new Path.Rectangle(new Rectangle(new Point(x1, y1), new Point(x2, y2)));
+            var x1 = initialX - myRadius / 2;
+            var y1 = initialY - myRadius / 2;
+            var x2 = initialX + myRadius / 2;
+            var y2 = initialY + myRadius / 2;
+            myShape = new Path.Rectangle(new Rectangle(new Point(x1, y1), new Point(x2, y2)));
         } else if (myTool == 'circle') {
-            shape = new Path.Circle(new Point(initialX, initialY), radius);
+            myShape = new Path.Circle(new Point(initialX, initialY), myRadius);
         }
-        shape.fillColor = myColor;
+        myShape.fillColor = myColor;
 
     }
     var pageCoords = "( down," + event.point + " )";
@@ -62,9 +62,9 @@ function onMouseDrag(event) {
         var finalY = event.point.y; // new y
         // draw the shape for the user to see
         var newRadius = Math.sqrt(Math.pow(finalX - initialX, 2) + Math.pow(finalY - initialY, 2));
-        shape.scale(1.0 * newRadius / radius, shape.bounds.center);
+        myShape.scale(1.0 * newRadius / myRadius, myShape.bounds.center);
         view.update();
-        radius = newRadius;
+        myRadius = newRadius;
     }
     var pageCoords = "( drag," + event.point + " )";
     console.log(pageCoords);
@@ -105,7 +105,15 @@ function onMouseUp(event) {
     	endPath();
     } else { 
         // the tool selected was a shape
+        var shapeData = {
+            shape: myTool,
+            color: myColor,
+            centerX: initialX,
+            centerY: initialY,
+            radius: myRadius
+        };
         // TODO: store the shape, send it to the server
+        io.emit( 'drawShape', shapeData);
     }
     console.log(event);
 }
@@ -168,6 +176,25 @@ function drawSingleSticker(sticker) {
     raster.scale(sticker.scale);
 }
 
+function drawSingleShape(shapeData) {
+    console.log("shapeData in the client");
+    if (shapeData.shape == 'circle') {
+        var copy = new Path.Circle(new Point(shapeData.centerX, shapeData.centerY), shapeData.radius);
+        copy.fillColor = shapeData.color;
+    } else if (shapeData.shape == 'rectangle') {
+        var x1 = shapeData.centerX - shapeData.radius / 2;
+        var y1 = shapeData.centerY - shapeData.radius / 2;
+        var x2 = shapeData.centerX + shapeData.radius / 2;
+        var y2 = shapeData.centerY + shapeData.radius / 2;
+        var copy = new Path.Rectangle(new Rectangle(new Point(x1, y1), new Point(x2, y2)));
+        copy.fillColor = shapeData.color;
+    } else { // triangle
+        var copy = new Path.RegularPolygon(new Point(shapeData.centerX, shapeData.centerY), 3, shapeData.radius);
+        copy.fillColor = shapeData.color;
+    }
+    view.draw();
+}
+
 var ready = function() {
 	$("#black").css("border", "solid black 3px");
 	$("#pen").css("border", "solid black 3px");
@@ -182,7 +209,8 @@ var ready = function() {
 		if (myTool == 'eraser') {
 	        myColor = 'white';
 	        $(".color").css("opacity","0.5");
-	    } else if (myTool == 'pen' || myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
+	    } else if (myTool == 'pen' || myTool == 'circle' || 
+            myTool == 'triangle' || myTool == 'rectangle') {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
 	    		if($(this).css("border-style") == "solid"){
@@ -225,6 +253,10 @@ var ready = function() {
     io.on( 'drawSticker', function(stickerData) {
         console.log("drawing sticker");
         drawSingleSticker(stickerData);
+    });
+
+    io.on( 'drawShape', function(shapeData) {
+        drawSingleShape(shapeData);
     });
 
     // draw all the previous paths and stickers on the canvas

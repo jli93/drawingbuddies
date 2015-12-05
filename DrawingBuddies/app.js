@@ -71,6 +71,9 @@ var currPath = [];
 // stores all the stickers ever drawn (dictionary)
 var allStickers = [];
 
+// stores all the shapes every drawn (dictionary)
+var allShapes = [];
+
 // true if in the process of creating a path
 var creatingPath = false;
 
@@ -102,6 +105,18 @@ io.sockets.on('connection', function (socket) {
       allStickers.push({
         key: count,
         value: stickerData
+      });
+      count++;
+    });
+
+    socket.on('drawShape', function(shapeData) {
+      // send the shape to all client
+      io.sockets.emit('drawShape', shapeData);
+      console.log("shape sent to drawShape in server");
+      // add the shape to allShapes
+      allShapes.push({
+        key: count,
+        value: shapeData
       });
       count++;
     });
