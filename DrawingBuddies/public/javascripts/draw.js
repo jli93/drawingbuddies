@@ -220,30 +220,6 @@ var ready = function() {
             view.update();
         }
 
-
-        // for (i = 0; i < allPaths.length; i++) { 
-        //     var currPath = allPaths[i];
-        //     if (currPath.length > 0) {
-        //         console.log("size of currPaths " + currPath.length);
-        //         var oldPath = new Path();
-        //         var data = currPath[0];
-        //         oldPath.strokeWidth = getSize(data.size);
-        //         oldPath.strokeColor = data.color;
-        //         for (j = 0; j < currPath.length; j++) {
-        //             // get the data point
-        //             data = currPath[j];
-        //             var point = new Point(data.x, data.y);
-        //             oldPath.add(point);
-        //         }
-        //         view.update();
-        //     }
-        // }
-        // // get each sticker data and draw the sticker
-        // for (i = 0; i < allStickers.length; i++) {
-        //     var currSticker = allStickers[i];
-        //     drawSingleSticker(currSticker);
-        // }
-        // view.update();
     });
 
 };
