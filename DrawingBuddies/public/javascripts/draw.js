@@ -79,7 +79,7 @@ function initPath(clientnum, clientColor, clientSize){
 	otherPaths[clientnum] = p;
 }
 
-// This function sends the data for a circle to the server
+// This function sends the data for a path to the server
 // so that the server can broadcast it to every other user
 function emitPath( point, color, size, tool) {
     // Each Socket.IO connection has a unique session id
@@ -184,32 +184,45 @@ var ready = function() {
         drawSingleSticker(stickerData);
     });
 
+    // draw all the previous paths and stickers on the canvas
+    // so a new user has the history from previous users
     io.on( 'drawHistory', function( allPaths, allStickers ) {
         console.log("inside drawHistory");
-        console.log("size of allPaths " + allPaths.length);
-        for (i = 0; i < allPaths.length; i++) { 
-            var currPath = allPaths[i];
-            if (currPath.length > 0) {
-                console.log("size of currPaths " + currPath.length);
-                var oldPath = new Path();
-                var data = currPath[0];
-                oldPath.strokeWidth = getSize(data.size);
-                oldPath.strokeColor = data.color;
-                for (j = 0; j < currPath.length; j++) {
-                    // get the data point
-                    data = currPath[j];
-                    var point = new Point(data.x, data.y);
-                    oldPath.add(point);
+        // go through allPaths and allStickers and check for the
+        // min key
+        i = 0; // pointer for paths
+        j = 0; // pointer for stickers
+        while (i < allPaths.length || j < allStickers.length) {
+            // check the keys: find the min key
+            if (j == allStickers.length || allPaths[i].key < allStickers[j].key) {
+                // either we have drawn all the stickers or the key of path < key of sticker
+                // draw the path
+                var currPath = allPaths[i].value; // grab the path
+                if (currPath.length > 0) {
+                    console.log("size of currPaths " + currPath.length);
+                    var oldPath = new Path();
+                    var data = currPath[0];
+                    // set the width and the color of the path
+                    oldPath.strokeWidth = getSize(data.size);
+                    oldPath.strokeColor = data.color;
+                    // draw each data point of the path
+                    for (k = 0; k < currPath.length; k++) {
+                        // get the data point
+                        data = currPath[k];
+                        var point = new Point(data.x, data.y);
+                        oldPath.add(point);
+                    }
                 }
-                view.draw();
+                i++; // update pointer for paths
+            } else {
+                // draw the sticker
+                var currSticker = allStickers[j].value;
+                drawSingleSticker(currSticker);
+                j++; // update pointer for stickers
             }
+            view.update();
         }
-        // get each sticker data and draw the sticker
-        for (i = 0; i < allStickers.length; i++) {
-            var currSticker = allStickers[i];
-            drawSingleSticker(currSticker);
-        }
-        view.draw();
+
     });
 
 };

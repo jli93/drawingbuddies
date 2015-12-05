@@ -62,18 +62,19 @@ var io = require('socket.io').listen(server, function() {
 
 ///////////////// done with setup ///////////////////////
 
-// store all the paths with the points, color, and size
+// store all the paths with the points, color, and size (dictonary)
 var allPaths = [];
 
 // stores the list of data objects for a given path
 var currPath = [];
 
-// stores all the stickers ever drawn
+// stores all the stickers ever drawn (dictionary)
 var allStickers = [];
 
 // true if in the process of creating a path
 var creatingPath = false;
 
+var count = 0;
 
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
@@ -93,8 +94,12 @@ io.sockets.on('connection', function (socket) {
 
     socket.on( 'drawSticker', function(stickerData) {
       io.sockets.emit( 'drawSticker', stickerData);
-      allStickers.push(stickerData);
       // add the sticker to allStickers
+      allStickers.push({
+        key: count,
+        value: stickerData
+      });
+      count++;
     });
 
     // client calls endPath when it is done drawing a path
@@ -103,7 +108,11 @@ io.sockets.on('connection', function (socket) {
       io.sockets.emit( 'endPath', session);
 
       // add the currPath to allPath and reset currPath
-      allPaths.push(currPath);
+      allPaths.push({
+        key: count,
+        value: currPath
+      });
+      count++;
       currPath = [];
       creatingPath = false;
     });
