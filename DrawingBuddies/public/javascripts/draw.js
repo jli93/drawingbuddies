@@ -264,11 +264,12 @@ var ready = function() {
         console.log("inside drawHistory");
         // go through allPaths and allStickers and check for the
         // min key
-        i = 0; // pointer for paths
-        j = 0; // pointer for stickers
+        var i = 0; // pointer for paths
+        var j = 0; // pointer for stickers
         while (i < allPaths.length || j < allStickers.length) {
             // check the keys: find the min key
-            if (j == allStickers.length || allPaths[i].key < allStickers[j].key) {
+            // TODO: Check this
+            if (i < allPaths.length && (j == allStickers.length || allPaths[i].key < allStickers[j].key) ) {
                 // either we have drawn all the stickers or the key of path < key of sticker
                 // draw the path
                 var currPath = allPaths[i].value; // grab the path
