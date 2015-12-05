@@ -59,6 +59,7 @@ function onMouseUp(event) {
             id: stickerId,
             scale: stickerScale
         };
+        console.log("( sticker, " + stickerData + " )");
 
         drawSingleSticker(stickerData);
         // send sticker to server
