@@ -7,10 +7,8 @@ var myTool = 'pen';
 // used for when client draws a shape (triangle, rectangle, circle)
 var initialX;
 var initialY;
-var finalX;
-var finalY;
 var shape;
-var radius = 50; // default size is 50
+var radius; // default size is 50
 
 // returns the integer size for the corresponding string size
 function getSize(size) {
@@ -32,6 +30,7 @@ function onMouseDown(event) {
         myPath.strokeColor = myColor;
         myPath.strokeWidth = getSize(mySize); 
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
+        radius = 50;
         // store the x, y points as the center point of the shape
         initialX = event.point.x;
         initialY = event.point.y;
@@ -44,7 +43,7 @@ function onMouseDown(event) {
             var y2 = initialY + radius / 2;
             shape = new Path.Rectangle(new Rectangle(new Point(x1, y1), new Point(x2, y2)));
         } else if (myTool == 'circle') {
-            shape = new Path.circle(new Point(initialX, initialY), radius);
+            shape = new Path.Circle(new Point(initialX, initialY), radius);
         }
         shape.fillColor = myColor;
 
@@ -58,10 +57,9 @@ function onMouseDrag(event) {
     if (myTool == 'pen' || myTool == 'eraser') {
     	myPath.add(event.point);
     	emitPath(event.point, myColor, mySize, myTool);
-    } else { // TODO: test that myTool is a shape
-        // shape.remove(); // TODO: Remove the previous shape
-        finalX = event.point.x; // new x
-        finalY = event.point.y; // new y
+    } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
+        var finalX = event.point.x; // new x
+        var finalY = event.point.y; // new y
         // draw the shape for the user to see
         var newRadius = Math.sqrt(Math.pow(finalX - initialX, 2) + Math.pow(finalY - initialY, 2));
         shape.scale(1.0 * newRadius / radius, shape.bounds.center);
