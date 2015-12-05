@@ -13,7 +13,7 @@ function click(x,y){
 }
 function simulateDown(x, y) {
     var el = document.elementFromPoint(x, y);
-    jQuery(el).mousedown();
+    $(el).mousedown();
 }
 function simulateClick(x, y) {
     
@@ -24,13 +24,14 @@ function simulateClick(x, y) {
 }
 function simulateUp(x, y) {
     var el = document.elementFromPoint(x, y);
-    jQuery(el).trigger("mouseup");
+    $(el).trigger("mouseup");
 }
 function simulateDrag(x, y) {
     var el = document.elementFromPoint(x, y);
     jQuery(el).mousemove();
 }
 function simulateDraw(x,y){
+    console.log("drawing " + x + " " + y + " ");
     var ev = document.createEvent("MouseEvent");
     var el = document.elementFromPoint(x,y);
     ev.initMouseEvent(
@@ -41,12 +42,15 @@ function simulateDraw(x,y){
         false, false, false, false, /* modifier keys */
         0 /*left*/, null
     );
-
+    el.dispatchEvent(ev);
 }
 var ready2 = function() {
     console.log("time to simulate");
     $("#eraser").click();
     simulateClick(100, 500);
     simulateDraw(400, 350);
+    simulateClick(400, 350);
+    simulateDown(400, 350);
+    simulateUp(400,350);
 
 };

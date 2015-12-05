@@ -107,6 +107,7 @@ function onMouseUp(event) {
         // the tool selected was a shape
         // TODO: store the shape, send it to the server
     }
+    console.log(event);
 }
 
 
