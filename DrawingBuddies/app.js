@@ -97,7 +97,7 @@ io.sockets.on('connection', function (socket) {
       // add the sticker to allStickers
       allStickers.push({
         key: count,
-        value: sitckerData
+        value: stickerData
       });
       count++;
     });
