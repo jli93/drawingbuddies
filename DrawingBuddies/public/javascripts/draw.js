@@ -7,6 +7,10 @@ var myTool = 'pen';
 // used for when client draws a shape (triangle, rectangle, circle)
 var initialX;
 var initialY;
+var finalX;
+var finalY;
+var shape;
+var radius = 50; // default size is 50
 
 // returns the integer size for the corresponding string size
 function getSize(size) {
@@ -24,9 +28,13 @@ function onMouseDown(event) {
         myPath = new Path();
         myPath.strokeColor = myColor;
         myPath.strokeWidth = getSize(mySize); 
-    } else { // myTool is a shape
+    } else { // TODO: test that myTool is a shape
         // store the x, y points
-        console.log("something");
+        initialX = event.point.x;
+        initialY = event.point.y;
+        shape = new Path.RegularPolygon(new Point (initialX, initialY), 3, radius);
+        shape.fillColor = myColor;
+
     }
     var pageCoords = "( down," + event.point + " )";
     console.log(pageCoords);
@@ -37,6 +45,15 @@ function onMouseDrag(event) {
     if (myTool == 'pen' || myTool == 'eraser') {
     	myPath.add(event.point);
     	emitPath(event.point, myColor, mySize, myTool);
+    } else { // TODO: test that myTool is a shape
+        // shape.remove(); // TODO: Remove the previous shape
+        finalX = event.point.x; // new x
+        finalY = event.point.y; // new y
+        // draw the shape for the user to see
+        var newRadius = Math.sqrt(Math.pow(finalX - initialX, 2) + Math.pow(finalY - initialY, 2));
+        shape.scale(1.0 * newRadius / radius, shape.bounds.center);
+        view.update();
+        radius = newRadius;
     }
     var pageCoords = "( drag," + event.point + " )";
     console.log(pageCoords);
@@ -71,10 +88,14 @@ function onMouseUp(event) {
         drawSingleSticker(stickerData);
         // send sticker to server
         io.emit( 'drawSticker', stickerData );
+    } else if (myTool == 'pen' || myTool == 'eraser') {
+        //  the tool selected was the pen/eraser
+     	myPath = null;
+    	endPath();
+    } else { 
+        // the tool selected was a shape
+        // TODO: store the shape, send it to the server
     }
-    // else the tool selected was the pen/eraser
- 	myPath = null;
-	endPath();
 }
 
 

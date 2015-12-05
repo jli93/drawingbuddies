@@ -17,18 +17,30 @@ a {
 canvas {
 	background-color: white;
 	border: #696969 solid 3px;
+	width: 925px;
 }
 
 #container {
 	float: left;	
 	border: #696969 solid 3px;
 	border-right: 1px;
-	width: 65px;
+	width: 140px;
 	height: 500px;
 	padding: .5em;
 	text-align: center;
 	background-color: #F5F5F5;
 }
+#tool, #color{
+	float: left;
+}
+#color{
+	margin: 7px;
+}
+#color div {
+    margin: auto;
+    margin-bottom: 2px;
+}
+
 
 .select-style{
 	padding: 0;
@@ -87,7 +99,7 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 	width: 44px;
 	border-radius: 10px;
 	margin: 5px;
-	display: inline-block;
+	
 }
 .size {
 	padding: 5px;
