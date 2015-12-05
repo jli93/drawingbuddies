@@ -19,17 +19,17 @@ canvas {
 	border: #696969 solid 3px;
 }
 
-#container.col {
+#container {
 	float: left;	
 	border: #696969 solid 3px;
 	border-right: 1px;
 	width: 65px;
-	height: 745px;
+	height: 500px;
 	padding: .5em;
 	text-align: center;
 	background-color: #F5F5F5;
-
 }
+
 .select-style{
 	padding: 0;
     margin: 0;
@@ -42,9 +42,7 @@ canvas {
     background: #fff url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
 }
 select {
-
 	display: block;
-
 	padding: 5px 8px;
     width: 130%;
     border: none;
@@ -55,6 +53,7 @@ select {
        -moz-appearance: none;
             appearance: none;
 }
+
 select option span {
 	padding: 2em 0;
 }
