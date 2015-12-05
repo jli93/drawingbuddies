@@ -26,6 +26,7 @@ function getSize(size) {
 function onMouseDown(event) {
     var pageCoords = "( down," + event.point + " )";
     console.log(pageCoords);
+
     if (myTool == 'pen' || myTool == 'eraser') {
         myPath = new Path();
         myPath.strokeColor = myColor;
@@ -71,7 +72,6 @@ function onMouseDrag(event) {
 function onMouseUp(event) {
     // if the tool selected was a sticker
     if (myTool == 'fbicon' || myTool == 'smiley') {
-        console.log("drawing sticker");
         var stickerSrc;
         var stickerId;
         var stickerScale;
