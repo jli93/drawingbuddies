@@ -68,10 +68,7 @@ function onMouseDrag(event) {
 function onMouseUp(event) {
     // if the tool selected was a sticker
     if (myTool == 'fbicon' || myTool == 'smiley') {
-<<<<<<< HEAD
-=======
         console.log("drawing sticker");
->>>>>>> 6e0642290c9a83894e6b69aaad03edf12c43bb39
         var stickerSrc;
         var stickerId;
         var stickerScale;
