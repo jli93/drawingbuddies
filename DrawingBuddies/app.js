@@ -93,14 +93,16 @@ io.sockets.on('connection', function (socket) {
     socket.on( 'drawPath', function( data, session ) {
       console.log( "session " + session + " drew:");
       console.log( data );
-      io.sockets.emit( 'drawPath', data, session );
+      // io.sockets.emit( 'drawPath', data, session );
+      socket.broadcast.emit('drawPath', data, session);
       // add the data point to currPath
       currPath.push(data);
       creatingPath = true;
     });
 
     socket.on( 'drawSticker', function(stickerData) {
-      io.sockets.emit( 'drawSticker', stickerData);
+      // io.sockets.emit( 'drawSticker', stickerData);
+      socket.broadcast.emit('drawSticker', stickerData);
       // add the sticker to allStickers
       allStickers.push({
         key: count,
@@ -111,7 +113,8 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('drawShape', function(shapeData) {
       // send the shape to all client
-      io.sockets.emit('drawShape', shapeData);
+      // io.sockets.emit('drawShape', shapeData);
+      socket.broadcast.emit('drawShape', shapeData);
       console.log("shape sent to drawShape in server");
       // add the shape to allShapes
       allShapes.push({

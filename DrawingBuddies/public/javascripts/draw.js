@@ -5,10 +5,14 @@ var mySize = '5';
 var myTool = 'pen';
 
 // used for when client draws a shape (triangle, rectangle, circle)
-var initialX;
-var initialY;
+// (anchorX, anchorY) is the topLeft point of the shape
+var anchorX;
+var anchorY;
 var myShape;
 var myRadius; // default size is 50
+// (myCenterX, myCenterY) is the center point of the shape
+var myCenterX;
+var myCenterY;
 
 // returns the integer size for the corresponding string size
 function getSize(size) {
@@ -21,6 +25,15 @@ function getSize(size) {
     }
 }
 
+// sets the center point (myCenterX, myCenterY) of the shape
+function setCenterPoint() {
+    var xOffset = Math.cos(Math.PI / 6) * myRadius;
+    var yOffset = Math.sin(Math.PI / 6) * myRadius;
+
+    myCenterY = anchorY + yOffset;
+    myCenterX = anchorX + xOffset;
+}
+
 function onMouseDown(event) {
     var pageCoords = "( down," + event.point + " )";
     console.log(pageCoords);
@@ -31,19 +44,25 @@ function onMouseDown(event) {
         myPath.strokeWidth = getSize(mySize); 
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
         myRadius = 50;
-        // store the x, y points as the center point of the shape
-        initialX = event.point.x;
-        initialY = event.point.y;
+        // store the x, y points as the lower right corner of the shape
+        var initialX = event.point.x;
+        var initialY = event.point.y;
+
+        var xOffset = Math.cos(Math.PI / 6) * myRadius;
+        var yOffset = Math.sin(Math.PI / 6) * myRadius;
+
+        // (anchorX, anchorY) is the topLeft point of the shape
+        anchorX = initialX - xOffset * 2;
+        anchorY = initialY - yOffset * 2;
+
+        setCenterPoint();
+
         if (myTool == 'triangle') {
-            myShape = new Path.RegularPolygon(new Point (initialX, initialY), 3, myRadius);
+            myShape = new Path.RegularPolygon(new Point (myCenterX, myCenterY), 3, myRadius);
         } else if (myTool == 'rectangle') {
-            var x1 = initialX - myRadius / 2;
-            var y1 = initialY - myRadius / 2;
-            var x2 = initialX + myRadius / 2;
-            var y2 = initialY + myRadius / 2;
-            myShape = new Path.Rectangle(new Rectangle(new Point(x1, y1), new Point(x2, y2)));
+            myShape = new Path.RegularPolygon(new Point (myCenterX, myCenterY), 4, myRadius);
         } else if (myTool == 'circle') {
-            myShape = new Path.Circle(new Point(initialX, initialY), myRadius);
+            myShape = new Path.Circle(new Point(myCenterX, myCenterY), myRadius);
         }
         myShape.fillColor = myColor;
 
@@ -60,11 +79,24 @@ function onMouseDrag(event) {
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
         var finalX = event.point.x; // new x
         var finalY = event.point.y; // new y
+
         // draw the shape for the user to see
-        var newRadius = Math.sqrt(Math.pow(finalX - initialX, 2) + Math.pow(finalY - initialY, 2));
-        myShape.scale(1.0 * newRadius / myRadius, myShape.bounds.center);
-        view.update();
+        var newRadius = Math.sqrt(Math.pow(finalX - anchorX, 2) + Math.pow(finalY - anchorY, 2)) / 2;
+        // myShape.scale(1.0 * newRadius / myRadius, myShape.bounds.topLeft);
         myRadius = newRadius;
+        setCenterPoint();
+
+        myShape.removeSegments();
+        if (myTool == 'triangle') {
+            myShape = new Path.RegularPolygon(new Point (myCenterX, myCenterY), 3, myRadius);
+        } else if (myTool == 'rectangle') {
+            myShape = new Path.RegularPolygon(new Point (myCenterX, myCenterY), 4, myRadius);
+        } else if (myTool == 'circle') {
+            myShape = new Path.Circle(new Point(myCenterX, myCenterY), myRadius);
+        }
+        myShape.fillColor = myColor;
+        view.draw();
+
     }
     var pageCoords = "( drag," + event.point + " )";
     console.log(pageCoords);
@@ -108,11 +140,10 @@ function onMouseUp(event) {
         var shapeData = {
             shape: myTool,
             color: myColor,
-            centerX: initialX,
-            centerY: initialY,
+            centerX: myCenterX,
+            centerY: myCenterY,
             radius: myRadius
         };
-        // TODO: store the shape, send it to the server
         io.emit( 'drawShape', shapeData);
     }
     console.log(event);
@@ -176,22 +207,20 @@ function drawSingleSticker(sticker) {
     raster.scale(sticker.scale);
 }
 
+// helper method to draw a single shape
 function drawSingleShape(shapeData) {
     console.log("shapeData in the client");
+    console.log("center x: " + shapeData.centerX + ", y: " + shapeData.centerY);
+    console.log("radius: " + shapeData.radius);
+    var copy;
     if (shapeData.shape == 'circle') {
-        var copy = new Path.Circle(new Point(shapeData.centerX, shapeData.centerY), shapeData.radius);
-        copy.fillColor = shapeData.color;
+        copy = new Path.Circle(new Point(shapeData.centerX, shapeData.centerY), shapeData.radius);
     } else if (shapeData.shape == 'rectangle') {
-        var x1 = shapeData.centerX - shapeData.radius / 2;
-        var y1 = shapeData.centerY - shapeData.radius / 2;
-        var x2 = shapeData.centerX + shapeData.radius / 2;
-        var y2 = shapeData.centerY + shapeData.radius / 2;
-        var copy = new Path.Rectangle(new Rectangle(new Point(x1, y1), new Point(x2, y2)));
-        copy.fillColor = shapeData.color;
+        copy = new Path.RegularPolygon(new Point(shapeData.centerX, shapeData.centerY), 4, shapeData.radius);
     } else { // triangle
-        var copy = new Path.RegularPolygon(new Point(shapeData.centerX, shapeData.centerY), 3, shapeData.radius);
-        copy.fillColor = shapeData.color;
+        copy = new Path.RegularPolygon(new Point(shapeData.centerX, shapeData.centerY), 3, shapeData.radius);
     }
+    copy.fillColor = shapeData.color;
     view.draw();
 }
 
