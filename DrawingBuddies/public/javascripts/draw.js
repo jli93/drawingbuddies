@@ -348,6 +348,14 @@ var ready = function() {
 	    			myColor = $(this).attr("id");
 	    		}
 	    	});
+        }else if (myTool == 'clear') {
+            console.log("inclear");
+            $context = $('#draw')[0].getContext('2d');
+            console.log($context);
+            console.log($("#draw").css("width"));
+            console.log($("#draw").css("height"));
+            //$context.clearRect(0, 0, $("#draw").css("width"), $("#draw").css("height"));
+            $context.clearRect(0, 0, $context.canvas.width, $context.canvas.height);
 	    } else {
             // TODO: fb sticker!
             $(".color").css("opacity","0.5");
