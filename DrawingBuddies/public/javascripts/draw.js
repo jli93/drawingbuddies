@@ -36,9 +36,10 @@ function setCenterPoint() {
 }
 
 function onMouseDown(event) {
-    var pageCoords = "( down," + event.point + " )";
-    console.log(pageCoords);
+    onMouseDownHelper(event);
+}
 
+function onMouseDownHelper(event) {
     if (myTool == 'pen' || myTool == 'eraser') {
         myPath = new Path();
         myPath.strokeColor = myColor;
@@ -67,9 +68,13 @@ function onMouseDown(event) {
 }
 
 function onMouseDrag(event) {
+    onMouseDragHelper(event);
+}
+
+function onMouseDragHelper(event) {
     if (myTool == 'pen' || myTool == 'eraser') {
-    	myPath.add(event.point);
-    	emitPath(event.point, myColor, mySize, myTool);
+        myPath.add(event.point);
+        emitPath(event.point, myColor, mySize, myTool);
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
         var finalX = event.point.x; // new x
         var finalY = event.point.y; // new y
@@ -89,6 +94,10 @@ function onMouseDrag(event) {
 }
 
 function onMouseUp(event) {
+    onMouseUpHelper(event);
+}
+
+function onMouseUpHelper(event) {
     // if the tool selected was a sticker
     if (myTool == 'fbicon' || myTool == 'smiley') {
         var stickerSrc;
@@ -119,8 +128,8 @@ function onMouseUp(event) {
         io.emit( 'drawSticker', stickerData );
     } else if (myTool == 'pen' || myTool == 'eraser') {
         //  the tool selected was the pen/eraser
-     	myPath = null;
-    	endPath();
+        myPath = null;
+        endPath();
     } else { 
         // the tool selected was a shape
         var shapeData = {
@@ -132,7 +141,7 @@ function onMouseUp(event) {
         };
         io.emit( 'drawShape', shapeData);
     }
-    console.log(event);
+    console.log(event);    
 }
 
 
