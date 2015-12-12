@@ -43,7 +43,7 @@ function onMouseDownHelper(event) {
     if (myTool == 'pen' || myTool == 'eraser') {
         myPath = new Path();
         myPath.strokeColor = myColor;
-        myPath.strokeWidth = getSize(mySize); 
+        myPath.strokeWidth = getSize(mySize);
         var pageCoords = "( down," + event.point + " )";
         console.log(pageCoords);
         // console.log(event);
@@ -131,7 +131,7 @@ function onMouseUpHelper(event) {
         myPath = null;
         endPath();
         console.log("( up, " + event.point + " )");
-    } else { 
+    } else {
         // the tool selected was a shape
         console.log("drew shape");
         var shapeData = {
@@ -235,7 +235,7 @@ function click(x,y){
     el.dispatchEvent(ev);
 }
 function simulateClick(x, y) {
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -245,7 +245,7 @@ function simulateClick(x, y) {
     onMouseUpHelper(ev);
 }
 function simulateDown(x, y) {
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -254,7 +254,7 @@ function simulateDown(x, y) {
     onMouseDownHelper(ev);
 }
 function simulateDrag(x, y) {
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -263,7 +263,7 @@ function simulateDrag(x, y) {
     onMouseDragHelper(ev);
 }
 function simulateUp(x,y){
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -275,6 +275,14 @@ function simulateUp(x,y){
 function getData(){
     var r = $("#alldata").text();
     return r;
+}
+
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+        console.log("waiting");
+   }
 }
 
 function simulateDrawing(){
@@ -309,6 +317,7 @@ function simulateDrawing(){
                 simulateDown(x, y);
             } else if (command == "up"){
                 simulateUp(x, y);
+                sleep(5000);
             } else if (command == "drag" && myPath){
                 simulateDrag(x, y);
             }
@@ -331,7 +340,7 @@ var ready = function() {
 		if (myTool == 'eraser') {
 	        myColor = 'white';
 	        $(".color").css("opacity","0.5");
-	    } else if (myTool == 'pen' || myTool == 'circle' || 
+	    } else if (myTool == 'pen' || myTool == 'circle' ||
             myTool == 'triangle' || myTool == 'rectangle') {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
@@ -363,7 +372,7 @@ var ready = function() {
 		console.log("( size, " + mySize + " )");
 	});
 
-    
+
 
 	io.on( 'drawPath', function( data , clientnum) {
 	    drawPath(data, clientnum);
@@ -438,11 +447,11 @@ var ready = function() {
         // assert: all the lists are done
 
         console.log("time to simulate");
-        //simulateDrawing();
+        simulateDrawing();
     });
-    
+
     //simulation
-    
+
 };
 
 
