@@ -91,8 +91,8 @@ io.sockets.on('connection', function (socket) {
     socket.emit('drawHistory', allPaths, allStickers, allShapes );
 
     socket.on( 'drawPath', function( data, session ) {
-      console.log( "session " + session + " drew:");
-      console.log( data );
+      //console.log( "session " + session + " drew:");
+      //console.log( data );
       // io.sockets.emit( 'drawPath', data, session );
       socket.broadcast.emit('drawPath', data, session);
       // add the data point to currPath
@@ -115,7 +115,7 @@ io.sockets.on('connection', function (socket) {
       // send the shape to all client
       // io.sockets.emit('drawShape', shapeData);
       socket.broadcast.emit('drawShape', shapeData);
-      console.log("shape sent to drawShape in server");
+      //console.log("shape sent to drawShape in server");
       // add the shape to allShapes
       allShapes.push({
         key: count,
