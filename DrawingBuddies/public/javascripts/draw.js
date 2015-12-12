@@ -75,6 +75,8 @@ function onMouseDragHelper(event) {
     if (myTool == 'pen' || myTool == 'eraser') {
         myPath.add(event.point);
         emitPath(event.point, myColor, mySize, myTool);
+        var pageCoords = "( drag," + event.point + " )";
+        console.log(pageCoords);
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
         var finalX = event.point.x; // new x
         var finalY = event.point.y; // new y
@@ -89,8 +91,6 @@ function onMouseDragHelper(event) {
         view.draw();
 
     }
-    var pageCoords = "( drag," + event.point + " )";
-    console.log(pageCoords);
 }
 
 function onMouseUp(event) {
