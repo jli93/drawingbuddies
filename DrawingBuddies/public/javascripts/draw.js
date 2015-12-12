@@ -141,7 +141,7 @@ function onMouseUpHelper(event) {
         };
         io.emit( 'drawShape', shapeData);
     }
-    console.log(event);    
+    console.log(myTool);    
 }
 
 
@@ -218,6 +218,58 @@ function drawSingleShape(shape, centerX, centerY, radius, color) {
     return shapePath;
 }
 
+///botss stuff
+function click(x,y){
+    var ev = document.createEvent("MouseEvent");
+    var el = document.elementFromPoint(x,y);
+    ev.initMouseEvent(
+        "click",
+        true /* bubble */, true /* cancelable */,
+        window, null,
+        x, y, 0, 0, /* coordinates */
+        false, false, false, false, /* modifier keys */
+        0 /*left*/, null
+    );
+    el.dispatchEvent(ev);
+}
+function simulateDown(x, y) {
+    var el = document.elementFromPoint(x, y);
+    $(el).mousedown();
+}
+function simulateClick(x, y) {
+    var ev = { 
+        point: {
+            x: x,
+            y: y
+        }
+    };
+    onMouseDownHelper(ev);
+    onMouseUpHelper(ev);
+}
+function simulateUp(x, y) {
+    var el = document.elementFromPoint(x, y);
+    $(el).trigger("mouseup");
+}
+function simulateDrag(x, y) {
+    var el = document.elementFromPoint(x, y);
+    jQuery(el).mousemove();
+}
+function simulateDraw(x,y){
+    console.log("drawing " + x + " " + y + " ");
+    var ev = document.createEvent("MouseEvent");
+    var el = document.elementFromPoint(x,y);
+    ev.initMouseEvent(
+        "click",
+        true /* bubble */, true /* cancelable */,
+        window, null,
+        x, y, 0, 0, /* coordinates */
+        false, false, false, false, /* modifier keys */
+        0 /*left*/, null
+    );
+    el.dispatchEvent(ev);
+}
+///bots stuff ends
+
 var ready = function() {
 	$("#black").css("border", "solid black 3px");
 	$("#pen").css("border", "solid black 3px");
@@ -264,9 +316,7 @@ var ready = function() {
 		console.log("( size, " + mySize + " )");
 	});
 
-    io.on('error' function(error){
-        console.log(error);
-    });
+    
 
 	io.on( 'drawPath', function( data , clientnum) {
 	    drawPath(data, clientnum);
@@ -340,7 +390,14 @@ var ready = function() {
         // assert: all the lists are done
 
     });
-    ready2();
+    
+    //simulation
+    console.log("time to simulate");
+    $("#eraser").click();
+    $("#pen").click();
+    $("#smiley").click();
+    simulateClick(500, 400);
+
 };
 
 
