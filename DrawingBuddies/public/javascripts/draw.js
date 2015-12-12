@@ -270,6 +270,11 @@ function simulateUp(x,y){
     };
     onMouseUpHelper(ev);
 }
+
+function getData(){
+    var r = $("#alldata").text();
+    return r;
+}
 ///bots stuff ends
 
 var ready = function() {
@@ -394,6 +399,7 @@ var ready = function() {
     });
     
     //simulation
+    var data = getData();
     console.log("time to simulate");
     $("#eraser").click();
     $("#pen").click();
@@ -408,6 +414,7 @@ var ready = function() {
     }
     simulateUp(350, 450);
 
+    //console.log(data);
 };
 
 
