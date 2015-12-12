@@ -254,8 +254,13 @@ function simulateDown(x, y) {
     onMouseDownHelper(ev);
 }
 function simulateDrag(x, y) {
-    var el = document.elementFromPoint(x, y);
-    jQuery(el).mousemove();
+    var ev = { 
+        point: {
+            x: x,
+            y: y
+        }
+    };
+    onMouseDragHelper(ev);
 }
 function simulateUp(x,y){
     var ev = { 
