@@ -275,6 +275,36 @@ function getData(){
     var r = $("#alldata").text();
     return r;
 }
+
+function simulateDrawing(){
+    var data = getData();
+    var lines = data.split("\n");
+    var choice = 1 + Math.floor(Math.random() * $(lines).length);
+    var len = 1 + Math.floor(Math.random() * $(lines).length);
+    console.log(choice);
+    console.log(len);
+    for (var i = choice; i <= choice + len; i++) {
+        var n = lines[i].split(",");
+        var command = jQuery.trim(n[0]);
+
+        console.log(n);
+        if (command == "tool" || command == "size" || command == "color"){
+            $("#" + jQuery.trim(n[1])).click();
+        } else {
+            var x = parseFloat(n[1].split(" ")[2]);
+            var y = parseFloat(n[2].split(" ")[2]);
+            if (command == "sticker"){
+                simulateClick(x, y);
+            } else if (command == "down"){
+                simulateDown(x, y);
+            } else if (command == "up"){
+                simulateUp(x, y);
+            } else if (command == "drag" && myPath){
+                simulateDrag(x, y);
+            }
+        }
+    };
+}
 ///bots stuff ends
 
 var ready = function() {
@@ -399,35 +429,8 @@ var ready = function() {
     });
     
     //simulation
-    var data = getData();
     console.log("time to simulate");
-    var lines = data.split("\n");
-    var choice = 1 + Math.floor(Math.random() * $(lines).length);
-    var len = 1 + Math.floor(Math.random() * $(lines).length);
-    console.log(choice);
-    console.log(len);
-    for (var i = choice; i <= choice + len; i++) {
-        var n = lines[i].split(",");
-        var command = jQuery.trim(n[0]);
-
-        console.log(n);
-        if (command == "tool" || command == "size" || command == "color"){
-            $("#" + jQuery.trim(n[1])).click();
-        } else {
-            var x = parseFloat(n[1].split(" ")[2]);
-            var y = parseFloat(n[2].split(" ")[2]);
-            if (command == "sticker"){
-                simulateClick(x, y);
-            } else if (command == "down"){
-                simulateDown(x, y);
-            } else if (command == "up"){
-                simulateUp(x, y);
-            } else if (command == "drag" && myPath){
-                simulateDrag(x, y);
-            }
-        }
-    };
-    //console.log(data);
+    simulateDrawing();
 };
 
 
