@@ -399,6 +399,14 @@ var ready = function() {
     $("#pen").click();
     $("#smiley").click();
     simulateClick(500, 400);
+    $("#pen").click();
+    simulateDown(350, 350);
+    var i = 0;
+    while (i<100){
+        simulateDrag(350, 350+i);
+        i++;
+    }
+    simulateUp(350, 450);
 
 };
 
