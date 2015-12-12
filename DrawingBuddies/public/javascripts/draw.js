@@ -276,17 +276,20 @@ var ready = function() {
     // TODO: add shapes to history
     // draw all the previous paths and stickers on the canvas
     // so a new user has the history from previous users
-    io.on( 'drawHistory', function( allPaths, allStickers ) {
+    io.on( 'drawHistory', function( allPaths, allStickers, allShapes ) {
         console.log("inside drawHistory");
         // go through allPaths and allStickers and check for the min key
         var i = 0; // pointer for paths
         var j = 0; // pointer for stickers
-        while (i < allPaths.length || j < allStickers.length) {
-            // check the keys: find the min key
-            // TODO: Check this
-            if (i < allPaths.length && (j == allStickers.length || allPaths[i].key < allStickers[j].key) ) {
-                // either we have drawn all the stickers or the key of path < key of sticker
-                // draw the path
+        var k = 0; // pointer for shapes
+        while (i < allPaths.length || j < allStickers.length || k < allShapes.length) {
+            // assert: at least one pointer is within the range of their list indices (other pointers may not be)
+            if (i < allPaths.length &&
+                    ((j < allStickers.length && k < allShapes.length && allPaths[i].key < allStickers[j].key && allPaths[i].key < allShapes[k].key) ||
+                    (j < allStickers.length && k == allShapes.length && allPaths[i].key < allStickers[j].key) ||
+                    (k < allShapes.length && j == allStickers.length && allPaths[i].key < allShapes[k].key) ||
+                    (j == allStickers.length && k == allShapes.length))) {
+                // i is pointing to the smallest key so draw the path
                 var currPath = allPaths[i].value; // grab the path
                 if (currPath.length > 0) {
                     console.log("size of currPaths " + currPath.length);
@@ -296,22 +299,32 @@ var ready = function() {
                     oldPath.strokeWidth = getSize(data.size);
                     oldPath.strokeColor = data.color;
                     // draw each data point of the path
-                    for (k = 0; k < currPath.length; k++) {
+                    for (index = 0; index < currPath.length; index++) {
                         // get the data point
-                        data = currPath[k];
+                        data = currPath[index];
                         var point = new Point(data.x, data.y);
                         oldPath.add(point);
                     }
                 }
                 i++; // update pointer for paths
-            } else {
-                // draw the sticker
+            } else if (j < allStickers.length &&
+                    ((i < allPaths.length && k < allShapes.length && allStickers[j].key < allPaths[i].key && allStickers[j].key < allShapes[k].key) ||
+                    (i < allPaths.length && k == allShapes.length && allStickers[j].key < allPaths[i].key) ||
+                    (k < allShapes.length && i == allPaths.length && allStickers[j].key < allShapes[k].key) ||
+                    (i == allPaths.length && k == allShapes.length))) {
+                // j is pointing to the smallest key so draw the sticker
                 var currSticker = allStickers[j].value;
                 drawSingleSticker(currSticker);
                 j++; // update pointer for stickers
+            } else {
+                // k is pointing to the smallest key so draw the shape
+                var currShape = allShapes[k].value;
+                drawSingleShape(currShape.shape, currShape.centerX, currShape.centerY, currShape.radius, currShape.color);
+                k++; // update pointer for shapes
             }
             view.update();
         }
+        // assert: all the lists are done
 
     });
     ready2();
