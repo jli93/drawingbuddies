@@ -141,9 +141,8 @@ function onMouseUpHelper(event) {
             radius: myRadius
         };
         io.emit( 'drawShape', shapeData);
-        console.log("( shape, centerX: " + myCenterX + ", centerY: " + myCenterY + ", radius: " + myRadius " )");
+        console.log("( shape, centerX: " + myCenterX + ", centerY: " + myCenterY + ", radius: " + myRadius + " )");
     }
-    // console.log(event);
 }
 
 
