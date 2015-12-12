@@ -436,11 +436,12 @@ var ready = function() {
         }
         // assert: all the lists are done
 
+        console.log("time to simulate");
+        simulateDrawing();
     });
     
     //simulation
-    console.log("time to simulate");
-    simulateDrawing();
+    
 };
 
 
