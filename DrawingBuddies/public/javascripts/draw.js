@@ -46,7 +46,7 @@ function onMouseDownHelper(event) {
         myPath.strokeWidth = getSize(mySize); 
         var pageCoords = "( down," + event.point + " )";
         console.log(pageCoords);
-        console.log(event);
+        // console.log(event);
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
         myRadius = 50;
         // store the x, y points as the lower right corner of the shape
@@ -130,6 +130,7 @@ function onMouseUpHelper(event) {
         //  the tool selected was the pen/eraser
         myPath = null;
         endPath();
+        console.log("( up, " + event.point + " )");
     } else { 
         // the tool selected was a shape
         var shapeData = {
@@ -140,8 +141,9 @@ function onMouseUpHelper(event) {
             radius: myRadius
         };
         io.emit( 'drawShape', shapeData);
+        console.log("( shape, centerX: " + myCenterX + ", centerY: " + myCenterY + ", radius: " + myRadius " )");
     }
-    console.log(myTool);    
+    // console.log(event);
 }
 
 
