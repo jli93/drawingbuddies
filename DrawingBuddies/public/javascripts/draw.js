@@ -387,7 +387,7 @@ var ready = function() {
     // draw all the previous paths and stickers on the canvas
     // so a new user has the history from previous users
     io.on( 'drawHistory', function( allPaths, allStickers, allShapes ) {
-        // console.log("inside drawHistory");
+        console.log("inside drawHistory");
         // go through allPaths and allStickers and check for the min key
         var i = 0; // pointer for paths
         var j = 0; // pointer for stickers

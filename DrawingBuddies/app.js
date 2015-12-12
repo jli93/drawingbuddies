@@ -88,7 +88,9 @@ io.sockets.on('connection', function (socket) {
       });
       count++;
     }
-    socket.emit('drawHistory', allPaths, allStickers, allShapes );
+    socket.on('client_connected', function(data) {
+      socket.emit('drawHistory', allPaths, allStickers, allShapes );
+    });
 
     socket.on( 'drawPath', function( data, session ) {
       //console.log( "session " + session + " drew:");

@@ -5,6 +5,10 @@ io = io();
 // some data to the server
 console.log( "socket: browser says ping (1)" );
 io.emit('ping', { some: 'data' } );
+io.on('connect', function() {
+	io.emit('client_connected', 'hello');
+	console.log( "client calls the client_connected function of the server" );
+});
 
 // (4): When the browser receives a pong event
 // console log a message and the events data
