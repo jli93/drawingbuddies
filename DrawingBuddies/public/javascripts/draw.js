@@ -264,6 +264,10 @@ var ready = function() {
 		console.log("( size, " + mySize + " )");
 	});
 
+    io.on('error' function(error){
+        console.log(error);
+    });
+
 	io.on( 'drawPath', function( data , clientnum) {
 	    drawPath(data, clientnum);
 	});
