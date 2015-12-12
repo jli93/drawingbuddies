@@ -43,7 +43,7 @@ function onMouseDownHelper(event) {
     if (myTool == 'pen' || myTool == 'eraser') {
         myPath = new Path();
         myPath.strokeColor = myColor;
-        myPath.strokeWidth = getSize(mySize); 
+        myPath.strokeWidth = getSize(mySize);
         var pageCoords = "( down," + event.point + " )";
         console.log(pageCoords);
         // console.log(event);
@@ -131,7 +131,7 @@ function onMouseUpHelper(event) {
         myPath = null;
         endPath();
         console.log("( up, " + event.point + " )");
-    } else { 
+    } else {
         // the tool selected was a shape
         console.log("drew shape");
         var shapeData = {
@@ -235,7 +235,7 @@ function click(x,y){
     el.dispatchEvent(ev);
 }
 function simulateClick(x, y) {
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -245,7 +245,7 @@ function simulateClick(x, y) {
     onMouseUpHelper(ev);
 }
 function simulateDown(x, y) {
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -254,7 +254,7 @@ function simulateDown(x, y) {
     onMouseDownHelper(ev);
 }
 function simulateDrag(x, y) {
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -263,7 +263,7 @@ function simulateDrag(x, y) {
     onMouseDragHelper(ev);
 }
 function simulateUp(x,y){
-    var ev = { 
+    var ev = {
         point: {
             x: x,
             y: y
@@ -277,6 +277,14 @@ function getData(){
     return r;
 }
 
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+        console.log("waiting");
+   }
+}
+
 function simulateDrawing(){
     var data = getData();
     var lines = data.split("\n");
@@ -286,9 +294,32 @@ function simulateDrawing(){
     console.log(choice);
     console.log(len);
     for (var i = choice; i <= choice + len; i++) {
-        setTimeout(function() {
-            if(i >= $(lines).length){
-                return;
+        if(i >= $(lines).length){
+            break;
+        }
+        var n = lines[i].split(",");
+        var command = jQuery.trim(n[0]);
+
+        if (command == "tool" || command == "size" || command == "color"){
+            $("#" + jQuery.trim(n[1])).click();
+        } else if (command == "shape"){
+            var x = parseFloat(n[1].split(" ")[2]);
+            var y = parseFloat(n[2].split(" ")[2]);
+            simulateDown(x,y);
+            simulateUp(x,y);
+            console.log(n);
+        } else {
+            var x = parseFloat(n[1].split(" ")[2]);
+            var y = parseFloat(n[2].split(" ")[2]);
+            if (command == "sticker"){
+                simulateClick(x, y);
+            } else if (command == "down"){
+                simulateDown(x, y);
+            } else if (command == "up"){
+                simulateUp(x, y);
+                sleep(5000);
+            } else if (command == "drag" && myPath){
+                simulateDrag(x, y);
             }
             var n = lines[i].split(",");
             var command = jQuery.trim(n[0]);
@@ -314,10 +345,10 @@ function simulateDrawing(){
                     simulateDrag(x, y);
                 }
             }
-        }, 500);
+        }
         
         // TODO: SLEEP for a little bit to slow down reading reach action
-    };
+    }
 }
 ///bots stuff ends
 
@@ -335,7 +366,7 @@ var ready = function() {
 		if (myTool == 'eraser') {
 	        myColor = 'white';
 	        $(".color").css("opacity","0.5");
-	    } else if (myTool == 'pen' || myTool == 'circle' || 
+	    } else if (myTool == 'pen' || myTool == 'circle' ||
             myTool == 'triangle' || myTool == 'rectangle') {
 	    	$(".color").css("opacity","1");
 	    	$(".color").each(function(){
@@ -375,7 +406,7 @@ var ready = function() {
 		console.log("( size, " + mySize + " )");
 	});
 
-    
+
 
 	io.on( 'drawPath', function( data , clientnum) {
 	    drawPath(data, clientnum);
@@ -452,9 +483,9 @@ var ready = function() {
         console.log("time to simulate");
         simulateDrawing();
     });
-    
+
     //simulation
-    
+
 };
 
 

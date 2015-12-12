@@ -121,6 +121,7 @@ io.sockets.on('connection', function (socket) {
         value: stickerData
       });
       count++;
+      console.log("sticker");
     });
 
     socket.on('drawShape', function(shapeData) {
@@ -133,6 +134,7 @@ io.sockets.on('connection', function (socket) {
         value: shapeData
       });
       count++;
+      console.log("shape");
     });
 
     // client calls endPath when it is done drawing a path
