@@ -65,10 +65,7 @@ var io = require('socket.io').listen(server, function() {
 // store all the paths with the points, color, and size (dictonary)
 var allPaths = [];
 
-// stores the list of data objects for a given path
-var currPath = [];
-
-// TODO: map session ID --> currPath
+// map session ID --> currPath
 var sessionToCurrPath = [];
 
 // stores all the stickers ever drawn (dictionary)
@@ -76,9 +73,6 @@ var allStickers = [];
 
 // stores all the shapes every drawn (dictionary)
 var allShapes = [];
-
-// true if in the process of creating a path
-var creatingPath = false;
 
 var count = 0;
 
@@ -90,6 +84,7 @@ function checkMapElementsNull(value, key, map) {
     });
   }
   // TODO: set the currPath at sessionID to null?
+  map[key] = null;
   count++;
 }
 
@@ -105,18 +100,15 @@ io.sockets.on('connection', function (socket) {
     socket.on( 'drawPath', function( data, session ) {
       //console.log( "session " + session + " drew:");
       //console.log( data );
-      // io.sockets.emit( 'drawPath', data, session );
       socket.broadcast.emit('drawPath', data, session);
 
       // if the session ID does not have a currentPath, then add a currPath to it
       if (sessionToCurrPath[session] == null) {
         sessionToCurrPath[session] = [];
       }
+      // add the data point to currPath
       sessionToCurrPath[session].push(data);
 
-      // add the data point to currPath
-      // currPath.push(data);
-      creatingPath = true;
     });
 
     socket.on( 'drawSticker', function(stickerData) {
@@ -132,7 +124,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('drawShape', function(shapeData) {
       // send the shape to all client
-      // io.sockets.emit('drawShape', shapeData);
       socket.broadcast.emit('drawShape', shapeData);
       //console.log("shape sent to drawShape in server");
       // add the shape to allShapes
@@ -156,8 +147,6 @@ io.sockets.on('connection', function (socket) {
       sessionToCurrPath[session] = null;
 
       count++;
-      // currPath = [];
-      // creatingPath = false;
     });
 });
 
