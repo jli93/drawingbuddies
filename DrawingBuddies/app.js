@@ -86,7 +86,7 @@ function checkMapElementsNull(value, key, map) {
   if (value != null && value != undefined) {
     allPaths.push({
       key: count,
-      value: value;
+      value: map[key]
     });
   }
   // TODO: set the currPath at sessionID to null?
@@ -151,7 +151,7 @@ io.sockets.on('connection', function (socket) {
       // add the currPath to allPath and reset currPath to null
       allPaths.push({
         key: count,
-        value: sessionToCurrPath[session];
+        value: sessionToCurrPath[session]
       });
       sessionToCurrPath[session] = null;
 
