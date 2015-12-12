@@ -133,6 +133,7 @@ function onMouseUpHelper(event) {
         console.log("( up, " + event.point + " )");
     } else { 
         // the tool selected was a shape
+        console.log("drew shape");
         var shapeData = {
             shape: myTool,
             color: myColor,
@@ -281,15 +282,22 @@ function simulateDrawing(){
     var lines = data.split("\n");
     var choice = 1 + Math.floor(Math.random() * $(lines).length);
     var len = 1001 + Math.floor(Math.random() * 2000);
-    console.log(choice);
-    console.log(len);
+
     for (var i = choice; i <= choice + len; i++) {
+        if(i >= $(lines).length){
+            break;
+        }
         var n = lines[i].split(",");
         var command = jQuery.trim(n[0]);
 
-        console.log(n);
         if (command == "tool" || command == "size" || command == "color"){
             $("#" + jQuery.trim(n[1])).click();
+        } else if (command == "shape"){
+            var x = parseFloat(n[1].split(" ")[2]);
+            var y = parseFloat(n[2].split(" ")[2]);
+            simulateDown(x,y);
+            simulateUp(x,y);
+            console.log(n);
         } else {
             var x = parseFloat(n[1].split(" ")[2]);
             var y = parseFloat(n[2].split(" ")[2]);
