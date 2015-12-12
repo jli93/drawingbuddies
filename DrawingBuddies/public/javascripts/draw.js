@@ -283,6 +283,8 @@ function simulateDrawing(){
     var choice = 1 + Math.floor(Math.random() * $(lines).length);
     var len = 1001 + Math.floor(Math.random() * 2000);
 
+    console.log(choice);
+    console.log(len);
     for (var i = choice; i <= choice + len; i++) {
         if(i >= $(lines).length){
             break;
