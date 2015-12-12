@@ -44,6 +44,9 @@ function onMouseDownHelper(event) {
         myPath = new Path();
         myPath.strokeColor = myColor;
         myPath.strokeWidth = getSize(mySize); 
+        var pageCoords = "( down," + event.point + " )";
+        console.log(pageCoords);
+        console.log(event);
     } else if (myTool == 'circle' || myTool == 'triangle' || myTool == 'rectangle') {
         myRadius = 50;
         // store the x, y points as the lower right corner of the shape
@@ -62,9 +65,6 @@ function onMouseDownHelper(event) {
         myShape = drawSingleShape(myTool, myCenterX, myCenterY, myRadius, myColor);
 
     }
-    var pageCoords = "( down," + event.point + " )";
-    console.log(pageCoords);
-    console.log(event);
 }
 
 function onMouseDrag(event) {
@@ -204,7 +204,7 @@ function drawSingleSticker(sticker) {
 
 // helper method to draw a single shape
 function drawSingleShape(shape, centerX, centerY, radius, color) {
-    console.log("drawShape in the client");
+    // console.log("drawShape in the client");
     var shapePath;
     if (shape == 'triangle') {
         shapePath = new Path.RegularPolygon(new Point (centerX, centerY), 3, radius);
@@ -274,7 +274,7 @@ var ready = function() {
 
     // called when the server sends a sticker to the client
     io.on( 'drawSticker', function(stickerData) {
-        console.log("drawing sticker");
+        // console.log("drawing sticker");
         drawSingleSticker(stickerData);
     });
 
@@ -286,7 +286,7 @@ var ready = function() {
     // draw all the previous paths and stickers on the canvas
     // so a new user has the history from previous users
     io.on( 'drawHistory', function( allPaths, allStickers, allShapes ) {
-        console.log("inside drawHistory");
+        // console.log("inside drawHistory");
         // go through allPaths and allStickers and check for the min key
         var i = 0; // pointer for paths
         var j = 0; // pointer for stickers
@@ -301,7 +301,7 @@ var ready = function() {
                 // i is pointing to the smallest key so draw the path
                 var currPath = allPaths[i].value; // grab the path
                 if (currPath.length > 0) {
-                    console.log("size of currPaths " + currPath.length);
+                    // console.log("size of currPaths " + currPath.length);
                     var oldPath = new Path();
                     var data = currPath[0];
                     // set the width and the color of the path
