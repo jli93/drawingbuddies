@@ -437,7 +437,7 @@ var ready = function() {
         // assert: all the lists are done
 
         console.log("time to simulate");
-        simulateDrawing();
+        //simulateDrawing();
     });
     
     //simulation
