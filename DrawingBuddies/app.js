@@ -65,8 +65,8 @@ var io = require('socket.io').listen(server, function() {
 // store all the paths with the points, color, and size (dictonary)
 var allPaths = [];
 
-// stores the list of data objects for a given path
-var currPath = [];
+// map session ID --> currPath
+var sessionToCurrPath = [];
 
 // stores all the stickers ever drawn (dictionary)
 var allStickers = [];
@@ -74,32 +74,41 @@ var allStickers = [];
 // stores all the shapes every drawn (dictionary)
 var allShapes = [];
 
-// true if in the process of creating a path
-var creatingPath = false;
-
 var count = 0;
+
+function checkMapElementsNull(value, key, map) {
+  if (value != null && value != undefined) {
+    allPaths.push({
+      key: count,
+      value: map[key]
+    });
+  }
+  // TODO: set the currPath at sessionID to null?
+  sessionToCurrPath[key] = null;
+  count++;
+}
 
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
-    if (creatingPath) {
-      allPaths.push({
-        key: count,
-        value: currPath
-      });
-      count++;
-    }
     socket.on('client_connected', function(data) {
+      // check for all sessionIDs inside sessionToCurrPath, if any of their currPaths are not null,
+      // add currPath to allPaths
+      sessionToCurrPath.forEach(checkMapElementsNull);
       socket.emit('drawHistory', allPaths, allStickers, allShapes );
     });
 
     socket.on( 'drawPath', function( data, session ) {
       //console.log( "session " + session + " drew:");
       //console.log( data );
-      // io.sockets.emit( 'drawPath', data, session );
       socket.broadcast.emit('drawPath', data, session);
+
+      // if the session ID does not have a currentPath, then add a currPath to it
+      if (sessionToCurrPath[session] == null) {
+        sessionToCurrPath[session] = [];
+      }
       // add the data point to currPath
-      currPath.push(data);
-      creatingPath = true;
+      sessionToCurrPath[session].push(data);
+
     });
 
     socket.on( 'drawSticker', function(stickerData) {
@@ -115,7 +124,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('drawShape', function(shapeData) {
       // send the shape to all client
-      // io.sockets.emit('drawShape', shapeData);
       socket.broadcast.emit('drawShape', shapeData);
       //console.log("shape sent to drawShape in server");
       // add the shape to allShapes
@@ -131,14 +139,14 @@ io.sockets.on('connection', function (socket) {
     socket.on( 'endPath', function(session) {
       io.sockets.emit( 'endPath', session);
 
-      // add the currPath to allPath and reset currPath
+      // add the currPath to allPath and reset currPath to null
       allPaths.push({
         key: count,
-        value: currPath
+        value: sessionToCurrPath[session]
       });
+      sessionToCurrPath[session] = null;
+
       count++;
-      currPath = [];
-      creatingPath = false;
     });
 });
 

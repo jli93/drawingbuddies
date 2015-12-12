@@ -423,6 +423,7 @@ var ready = function() {
                         var point = new Point(data.x, data.y);
                         oldPath.add(point);
                     }
+                    oldPath = null;
                 }
                 i++; // update pointer for paths
             } else if (j < allStickers.length &&
