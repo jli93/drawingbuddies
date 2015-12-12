@@ -68,6 +68,9 @@ var allPaths = [];
 // stores the list of data objects for a given path
 var currPath = [];
 
+// TODO: map session ID --> currPath
+var sessionToCurrPath = [];
+
 // stores all the stickers ever drawn (dictionary)
 var allStickers = [];
 
@@ -79,16 +82,23 @@ var creatingPath = false;
 
 var count = 0;
 
+function checkMapElementsNull(value, key, map) {
+  if (value != null && value != undefined) {
+    allPaths.push({
+      key: count,
+      value: value;
+    });
+  }
+  // TODO: set the currPath at sessionID to null?
+  count++;
+}
+
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
-    if (creatingPath) {
-      allPaths.push({
-        key: count,
-        value: currPath
-      });
-      count++;
-    }
     socket.on('client_connected', function(data) {
+      // check for all sessionIDs inside sessionToCurrPath, if any of their currPaths are not null,
+      // add currPath to allPaths
+      sessionToCurrPath.forEach(checkMapElementsNull);
       socket.emit('drawHistory', allPaths, allStickers, allShapes );
     });
 
@@ -97,8 +107,15 @@ io.sockets.on('connection', function (socket) {
       //console.log( data );
       // io.sockets.emit( 'drawPath', data, session );
       socket.broadcast.emit('drawPath', data, session);
+
+      // if the session ID does not have a currentPath, then add a currPath to it
+      if (sessionToCurrPath[session] == null) {
+        sessionToCurrPath[session] = [];
+      }
+      sessionToCurrPath[session].push(data);
+
       // add the data point to currPath
-      currPath.push(data);
+      // currPath.push(data);
       creatingPath = true;
     });
 
@@ -131,14 +148,16 @@ io.sockets.on('connection', function (socket) {
     socket.on( 'endPath', function(session) {
       io.sockets.emit( 'endPath', session);
 
-      // add the currPath to allPath and reset currPath
+      // add the currPath to allPath and reset currPath to null
       allPaths.push({
         key: count,
-        value: currPath
+        value: sessionToCurrPath[session];
       });
+      sessionToCurrPath[session] = null;
+
       count++;
-      currPath = [];
-      creatingPath = false;
+      // currPath = [];
+      // creatingPath = false;
     });
 });
 
