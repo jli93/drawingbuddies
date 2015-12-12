@@ -108,6 +108,11 @@ select#color option[value="red"] { background-image:url(/images/pen.png);}
 	margin: auto;
 }
 
+#sm.size {
+	border: solid black 2px;
+	background-color: LightCyan;
+}
+
 
 #pen, #eraser {
 	padding: 5px;
