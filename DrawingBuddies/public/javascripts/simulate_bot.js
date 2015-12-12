@@ -16,11 +16,14 @@ function simulateDown(x, y) {
     $(el).mousedown();
 }
 function simulateClick(x, y) {
-    
-    var el = document.elementFromPoint(x, y);
-    $(el).click();
-    console.log("clicking " + x + " " + y + " ");
-    console.log(el);
+    var ev = { 
+        point: {
+            x: x,
+            y: y
+        }
+    };
+    onMouseDownHelper(ev);
+    onMouseUpHelper(ev);
 }
 function simulateUp(x, y) {
     var el = document.elementFromPoint(x, y);
@@ -47,10 +50,7 @@ function simulateDraw(x,y){
 var ready2 = function() {
     console.log("time to simulate");
     $("#eraser").click();
-    simulateClick(100, 500);
-    simulateDraw(400, 350);
-    simulateClick(400, 350);
-    simulateDown(400, 350);
-    simulateUp(400,350);
-
+    $("#pen").click();
+    $("#simley").click();
+    simulateClick(500, 500);
 };
