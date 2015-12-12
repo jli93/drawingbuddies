@@ -91,6 +91,7 @@ function checkMapElementsNull(value, key, map) {
 // A user connects to the server (opens a socket)
 io.sockets.on('connection', function (socket) {
     socket.on('client_connected', function(data) {
+      console.log("inside client_connected in server");
       // check for all sessionIDs inside sessionToCurrPath, if any of their currPaths are not null,
       // add currPath to allPaths
       sessionToCurrPath.forEach(checkMapElementsNull);

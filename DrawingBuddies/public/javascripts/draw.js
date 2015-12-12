@@ -286,33 +286,37 @@ function simulateDrawing(){
     console.log(choice);
     console.log(len);
     for (var i = choice; i <= choice + len; i++) {
-        if(i >= $(lines).length){
-            break;
-        }
-        var n = lines[i].split(",");
-        var command = jQuery.trim(n[0]);
-
-        if (command == "tool" || command == "size" || command == "color"){
-            $("#" + jQuery.trim(n[1])).click();
-        } else if (command == "shape"){
-            var x = parseFloat(n[1].split(" ")[2]);
-            var y = parseFloat(n[2].split(" ")[2]);
-            simulateDown(x,y);
-            simulateUp(x,y);
-            console.log(n);
-        } else {
-            var x = parseFloat(n[1].split(" ")[2]);
-            var y = parseFloat(n[2].split(" ")[2]);
-            if (command == "sticker"){
-                simulateClick(x, y);
-            } else if (command == "down"){
-                simulateDown(x, y);
-            } else if (command == "up"){
-                simulateUp(x, y);
-            } else if (command == "drag" && myPath){
-                simulateDrag(x, y);
+        setTimeout(function() {
+            if(i >= $(lines).length){
+                return;
             }
-        }
+            var n = lines[i].split(",");
+            var command = jQuery.trim(n[0]);
+
+            if (command == "tool" || command == "size" || command == "color"){
+                $("#" + jQuery.trim(n[1])).click();
+            } else if (command == "shape"){
+                var x = parseFloat(n[1].split(" ")[2]);
+                var y = parseFloat(n[2].split(" ")[2]);
+                simulateDown(x,y);
+                simulateUp(x,y);
+                console.log(n);
+            } else {
+                var x = parseFloat(n[1].split(" ")[2]);
+                var y = parseFloat(n[2].split(" ")[2]);
+                if (command == "sticker"){
+                    simulateClick(x, y);
+                } else if (command == "down"){
+                    simulateDown(x, y);
+                } else if (command == "up"){
+                    simulateUp(x, y);
+                } else if (command == "drag" && myPath){
+                    simulateDrag(x, y);
+                }
+            }
+        }, 500);
+        
+        // TODO: SLEEP for a little bit to slow down reading reach action
     };
 }
 ///bots stuff ends
@@ -446,7 +450,7 @@ var ready = function() {
         // assert: all the lists are done
 
         console.log("time to simulate");
-        //simulateDrawing();
+        simulateDrawing();
     });
     
     //simulation
