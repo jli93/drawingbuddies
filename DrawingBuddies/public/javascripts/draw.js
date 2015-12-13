@@ -278,11 +278,11 @@ function getData(){
 }
 
 function sleep(miliseconds) {
-   var currentTime = new Date().getTime();
+    var currentTime = new Date().getTime();
 
-   while (currentTime + miliseconds >= new Date().getTime()) {
+    while (currentTime + miliseconds >= new Date().getTime()) {
         console.log("waiting");
-   }
+    }
 }
 
 function simulateDrawing(){
@@ -317,7 +317,8 @@ function simulateDrawing(){
                 simulateDown(x, y);
             } else if (command == "up"){
                 simulateUp(x, y);
-                sleep(5000);
+                // on command up, sleep for 5000ms
+                // sleep(5000);
             } else if (command == "drag" && myPath){
                 simulateDrag(x, y);
             }
@@ -444,7 +445,7 @@ var ready = function() {
                     (j == allStickers.length && k == allShapes.length))) {
                 // i is pointing to the smallest key so draw the path
                 var currPath = allPaths[i].value; // grab the path
-                if (currPath.length > 0) {
+                if (currPath != null && currPath != undefined && currPath.length > 0) {
                     // console.log("size of currPaths " + currPath.length);
                     var oldPath = new Path();
                     var data = currPath[0];
@@ -480,8 +481,8 @@ var ready = function() {
         }
         // assert: all the lists are done
 
-        console.log("time to simulate");
-        simulateDrawing();
+        // console.log("time to simulate");
+        // simulateDrawing();
     });
 
     //simulation

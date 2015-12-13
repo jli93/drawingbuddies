@@ -84,7 +84,7 @@ function checkMapElementsNull(value, key, map) {
     });
   }
   // TODO: set the currPath at sessionID to null?
-  map[key] = null;
+  // map[key] = null;
   count++;
 }
 
