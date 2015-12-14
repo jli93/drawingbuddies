@@ -460,6 +460,10 @@ var ready = function() {
          //simulateDrawing();
     });
 
+    io.on( 'simulate', function() {
+       simulateDrawing();
+    });
+
     //simulation
 
 };
