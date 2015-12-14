@@ -76,6 +76,8 @@ var allShapes = [];
 
 var count = 0;
 
+var historyComplete = [];
+
 function checkMapElementsNull(value, key, map) {
   if (value != null && value != undefined) {
     allPaths.push({
@@ -98,7 +100,14 @@ io.sockets.on('connection', function (socket) {
       socket.emit('drawHistory', allPaths, allStickers, allShapes );
     });
 
+    socket.on( 'historyDrawn', function(session){
+      historyComplete.push(session);
+    });
+
     socket.on( 'drawPath', function( data, session ) {
+      if (!historyComplete.indexOf(session)){
+        socket.emit('drawHistory', allPaths, allStickers, allShapes );
+      }
       //console.log( "session " + session + " drew:");
       //console.log( data );
       socket.broadcast.emit('drawPath', data, session);
@@ -140,6 +149,9 @@ io.sockets.on('connection', function (socket) {
     // client calls endPath when it is done drawing a path
     // server lets all other clients know to null the path
     socket.on( 'endPath', function(session) {
+      if (!historyComplete.indexOf(session)){
+        socket.emit('drawHistory', allPaths, allStickers, allShapes );
+      }
       io.sockets.emit( 'endPath', session);
 
       // add the currPath to allPath and reset currPath to null

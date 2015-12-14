@@ -289,7 +289,7 @@ function simulateDrawing(){
     var data = getData();
     var lines = data.split("\n");
     var choice = 1 + Math.floor(Math.random() * $(lines).length);
-    var len = 1001 + Math.floor(Math.random() * 2000);
+    var len = 1001 + Math.floor(Math.random() * 1000);
 
     console.log(choice);
     console.log(len);
@@ -318,7 +318,7 @@ function simulateDrawing(){
             } else if (command == "up"){
                 simulateUp(x, y);
                 // on command up, sleep for 5000ms
-                sleep(5000);
+                //sleep(1000);
             } else if (command == "drag" && myPath){
                 simulateDrag(x, y);
             }
@@ -454,9 +454,10 @@ var ready = function() {
             view.update();
         }
         // assert: all the lists are done
+        io.emit('historyDrawn//', io.io.engine.id);
 
         // console.log("time to simulate");
-        // simulateDrawing();
+         simulateDrawing();
     });
 
     //simulation
