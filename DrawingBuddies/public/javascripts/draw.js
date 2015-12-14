@@ -457,7 +457,7 @@ var ready = function() {
         io.emit('historyDrawn//', io.io.engine.id);
 
         // console.log("time to simulate");
-         simulateDrawing();
+         //simulateDrawing();
     });
 
     //simulation
