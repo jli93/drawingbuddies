@@ -318,37 +318,11 @@ function simulateDrawing(){
             } else if (command == "up"){
                 simulateUp(x, y);
                 // on command up, sleep for 5000ms
-                // sleep(5000);
+                sleep(5000);
             } else if (command == "drag" && myPath){
                 simulateDrag(x, y);
             }
-            var n = lines[i].split(",");
-            var command = jQuery.trim(n[0]);
-
-            if (command == "tool" || command == "size" || command == "color"){
-                $("#" + jQuery.trim(n[1])).click();
-            } else if (command == "shape"){
-                var x = parseFloat(n[1].split(" ")[2]);
-                var y = parseFloat(n[2].split(" ")[2]);
-                simulateDown(x,y);
-                simulateUp(x,y);
-                console.log(n);
-            } else {
-                var x = parseFloat(n[1].split(" ")[2]);
-                var y = parseFloat(n[2].split(" ")[2]);
-                if (command == "sticker"){
-                    simulateClick(x, y);
-                } else if (command == "down"){
-                    simulateDown(x, y);
-                } else if (command == "up"){
-                    simulateUp(x, y);
-                } else if (command == "drag" && myPath){
-                    simulateDrag(x, y);
-                }
-            }
         }
-        
-        // TODO: SLEEP for a little bit to slow down reading reach action
     }
 }
 ///bots stuff ends
