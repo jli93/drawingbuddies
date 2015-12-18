@@ -99,7 +99,7 @@ io.sockets.on('connection', function (socket) {
       sessionToCurrPath.forEach(checkMapElementsNull);
       socket.emit('drawHistory', allPaths, allStickers, allShapes );
       // BOT: call the draw function of the bot
-      socket.emit('simulate');
+      // socket.emit('simulate');
     });
 
     socket.on( 'historyDrawn', function(session){
